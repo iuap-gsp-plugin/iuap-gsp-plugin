@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.yonyou.iuap.pap</groupId>
+	<artifactId>iuap-pap-api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>iuap-pap-api</name>
+	<url>http://maven.apache.org</url>
+
+  	<properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<module.version>3.5.1-RELEASE</module.version>
+		<!-- 主要依赖库的版本定义 -->
+		<iuap.modules.version>3.1.0-RELEASE</iuap.modules.version>
+		<iuap-pap-baseservice.version>3.5.1-RELEASE</iuap-pap-baseservice.version>
+		<springside.version>4.3.0-RELEASE</springside.version>
+		<spring.version>4.0.5.RELEASE</spring.version>
+		<junit.version>4.11</junit.version>
+
+		<!-- Plugin的属性 -->
+		<java.version>1.8</java.version>
+		<jetty.version>8.1.16.v20140903</jetty.version>
+  	</properties>
+
+	<dependencies>
+
+    	<dependency>
+			<groupId>com.yonyou.iuap.baseservice</groupId>
+			<artifactId>iuap-pap-baseservice-controller</artifactId>
+			<version>${iuap-pap-baseservice.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+			<groupId>com.yonyou.iuap.baseservice</groupId>
+			<artifactId>iuap-pap-baseservice-service</artifactId>
+			<version>${iuap-pap-baseservice.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+			<groupId>com.yonyou.iuap.baseservice</groupId>
+			<artifactId>iuap-pap-baseservice-persistence</artifactId>
+			<version>${iuap-pap-baseservice.version}</version>
+			<exclusions>
+            	<exclusion>
+                	<groupId>net.sf.jsqlparser</groupId>
+               		<artifactId>jsqlparser</artifactId>
+           		</exclusion>
+        	</exclusions>
+    	</dependency>
+    	
+    	<dependency>
+			<groupId>com.yonyou.iuap.baseservice</groupId>
+			<artifactId>iuap-pap-baseservice-entity</artifactId>
+			<version>${iuap-pap-baseservice.version}</version>
+    	</dependency>
+    	
+    	<dependency>
+			<groupId>com.yonyou.iuap.pap</groupId>
+			<artifactId>eiap-plus-common</artifactId>    	
+			<version>3.5.1-RELEASE</version>
+    	</dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.0.12</version>
+        </dependency>
+        
+	</dependencies>
+</project>

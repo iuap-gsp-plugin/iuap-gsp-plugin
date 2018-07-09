@@ -30,7 +30,7 @@
     </properties>
 
 	<dependencies>
-
+	
 		<!-- -->
 		<dependency>
 			<groupId>com.yonyou.iuap.baseservice</groupId>
