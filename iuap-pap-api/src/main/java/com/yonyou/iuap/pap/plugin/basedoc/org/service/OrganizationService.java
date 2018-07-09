@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yonyou.iuap.pap.plugin.basedoc.org.dao.OrganizationMapper;
@@ -27,11 +28,19 @@ public class OrganizationService implements IOrganizationService{
     	return this.organizationMapper.queryList(params);
     }
     
-	/***************************************************/
-	protected OrganizationMapper organizationMapper;
 
-	public void setOrganizationMapper(OrganizationMapper organizationMapper) {
-		this.organizationMapper = organizationMapper;
+	@Override
+	public Organization findUnique(String name, Object value) {
+		List<Organization> listOrgs = this.queryList(name, value);
+		if(listOrgs!=null && listOrgs.size()==1) {
+			return listOrgs.get(0);
+		}else {
+			throw new RuntimeException("组织机构数据查询出错,size="+listOrgs.size());
+		}
 	}
+    
+	/***************************************************/
+	@Autowired
+	protected OrganizationMapper organizationMapper;
 	
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yonyou.iuap.pap.plugin.basedoc.user.dao.WBUserMapper">
+
+	<select id="queryList" resultType="com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser">
+		SELECT 	t.id,
+				t.login_name as loginName,
+				t.name,
+				t.password,
+				t.salt,
+				t.roles,
+				t.states,
+				t.register_date as registerDate,
+				t.tenant_id as tenantId,
+				t.avator,
+				t.type,
+				t.phone,
+				t.email,
+				t.img,
+				t.islock,
+				t.remark,
+				t.create_date as createDate,
+				t.create_person as createPerson,
+				t.modify_date as modifyDate,
+				t.modify_person as modifyPerson,
+				t.organization_id as organizationId,
+				t.organization_name as organizationName,
+				t.group_id as groupId,
+				t.group_name as groupName,
+				t.dr,
+				t.ts
+		FROM  APP_USER t
+		WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.loginName!=null and condition.loginName!=''">
+					and t.login_name = #{condition.loginName, jdbcType=VARCHAR}
+				</if>
+			</if>	
+	</select>
+
+
+</mapper>

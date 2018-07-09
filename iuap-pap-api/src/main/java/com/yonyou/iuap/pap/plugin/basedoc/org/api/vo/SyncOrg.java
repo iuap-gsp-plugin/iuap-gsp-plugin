@@ -1,34 +1,21 @@
-package com.yonyou.iuap.pap.plugin.basedoc.org.entity;
+package com.yonyou.iuap.pap.plugin.basedoc.org.api.vo;
 
 import java.util.Date;
 
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Column;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.GeneratedValue;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Id;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Stragegy;
+public class SyncOrg {
 
-public class Organization {
-	
-	@Id
-    @GeneratedValue(strategy = Stragegy.UUID, moudle = "id")  
-    @Column(name = "id")
-    private String id;
-	
-    private String parent_id;
-    private String tenant_id;
-    private String sys_id;
     private String code;
     private String name;
-    private String inner_code;
+    private String shortName;
+    private String parentCode;
     private String description;
-    private String short_name;
-    private Date effective_date;
-    private Date create_date;
+    private Date effectiveDate;
+    private Date createDate;
     private String principal;
     private String contact;
-    private String contact_phone;
-    private String contact_address;
-    private String type;    
+    private String contactPhone;
+    private String contactAddress;
+    private String type; 
     private String def01;
     private String def02;
     private String def03;
@@ -49,35 +36,12 @@ public class Organization {
     private String def18;
     private String def19;
     private String def20;
-    private Integer dr = 0;
-    private Date ts;
 
-	public String getId() {
-		return id;
+	public String getCode() {
+		return code;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getParent_id() {
-		return parent_id;
-	}
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
-	}
-
-	public String getTenant_id() {
-		return tenant_id;
-	}
-	public void setTenant_id(String tenant_id) {
-		this.tenant_id = tenant_id;
-	}
-
-	public String getSys_id() {
-		return sys_id;
-	}
-	public void setSys_id(String sys_id) {
-		this.sys_id = sys_id;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getName() {
@@ -87,18 +51,18 @@ public class Organization {
 		this.name = name;
 	}
 
-	public String getCode() {
-		return code;
+	public String getShortName() {
+		return shortName;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
-	public String getInner_code() {
-		return inner_code;
+	public String getParentCode() {
+		return parentCode;
 	}
-	public void setInner_code(String inner_code) {
-		this.inner_code = inner_code;
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
 	}
 
 	public String getDescription() {
@@ -108,25 +72,18 @@ public class Organization {
 		this.description = description;
 	}
 
-	public String getShort_name() {
-		return short_name;
+	public Date getEffectiveDate() {
+		return effectiveDate;
 	}
-	public void setShort_name(String short_name) {
-		this.short_name = short_name;
-	}
-
-	public Date getEffective_date() {
-		return effective_date;
-	}
-	public void setEffective_date(Date effective_date) {
-		this.effective_date = effective_date;
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
 	}
 
-	public Date getCreate_date() {
-		return create_date;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public String getPrincipal() {
@@ -143,18 +100,18 @@ public class Organization {
 		this.contact = contact;
 	}
 
-	public String getContact_phone() {
-		return contact_phone;
+	public String getContactPhone() {
+		return contactPhone;
 	}
-	public void setContact_phone(String contact_phone) {
-		this.contact_phone = contact_phone;
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
 	}
 
-	public String getContact_address() {
-		return contact_address;
+	public String getContactAddress() {
+		return contactAddress;
 	}
-	public void setContact_address(String contact_address) {
-		this.contact_address = contact_address;
+	public void setContactAddress(String contactAddress) {
+		this.contactAddress = contactAddress;
 	}
 
 	public String getType() {
@@ -302,20 +259,6 @@ public class Organization {
 	}
 	public void setDef20(String def20) {
 		this.def20 = def20;
-	}
-
-	public Integer getDr() {
-		return dr;
-	}
-	public void setDr(Integer dr) {
-		this.dr = dr;
-	}
-
-	public Date getTs() {
-		return ts;
-	}
-	public void setTs(Date ts) {
-		this.ts = ts;
 	}
 
 }

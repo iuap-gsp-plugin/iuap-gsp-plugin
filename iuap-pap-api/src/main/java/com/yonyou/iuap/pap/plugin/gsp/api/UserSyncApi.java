@@ -1,4 +1,4 @@
-package com.yonyou.iuap.pap.plugin.basedoc.user.api.rest;
+package com.yonyou.iuap.pap.plugin.gsp.api;
 
 import java.util.Date;
 import java.util.List;
@@ -23,9 +23,9 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 
 @Component
-public class UserSyncRest {
+public class UserSyncApi {
 	
-	private Logger log = LoggerFactory.getLogger(UserSyncRest.class);
+	private Logger log = LoggerFactory.getLogger(UserSyncApi.class);
 	
 	/**
 	 * 用户同步Rest服务

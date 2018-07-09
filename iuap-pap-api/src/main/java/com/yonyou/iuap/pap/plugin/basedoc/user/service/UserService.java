@@ -31,7 +31,7 @@ public class UserService implements IUserService{
 	protected WBUserMapper wBUserMapper;
 
 	@Autowired
-	public void setwBUserMapper(WBUserMapper wBUserMapper) {
+	public void setWBUserMapper(WBUserMapper wBUserMapper) {
 		this.wBUserMapper = wBUserMapper;
 	}
 	

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yonyou.iuap.pap.plugin.basedoc.org.dao.OrganizationMapper">
+
+	<select id="queryList" resultType="com.yonyou.iuap.pap.plugin.basedoc.org.entity.Organization">
+		SELECT 	t.id,
+				t.code,
+				t.name,
+				t.contact,
+				t.contact_address,
+				t.contact_phone,
+				t.create_date,
+				t.description,
+				t.effective_date,
+				t.inner_code,
+				t.parent_id,
+				t.principal,
+				t.short_name,
+				t.sys_id,
+				t.tenant_id,
+				t.dr,
+				t.ts,
+				t.def01,
+				t.def02,
+				t.def03,
+				t.def04,
+				t.def05,
+				t.def06,
+				t.def07,
+				t.def08,
+				t.def09,
+				t.def10,
+				t.def11,
+				t.def12,
+				t.def13,
+				t.def14,
+				t.def15,
+				t.def16,
+				t.def17,
+				t.def18,
+				t.def19,
+				t.def20
+		FROM  org_organization t
+		WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.code!=null and condition.code!=''">
+					and t.code = #{condition.code, jdbcType=VARCHAR}
+				</if>
+			</if>	
+	</select>
+
+
+</mapper>
