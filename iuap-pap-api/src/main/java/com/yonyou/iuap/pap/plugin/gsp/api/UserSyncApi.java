@@ -33,13 +33,17 @@ public class UserSyncApi {
 	 */
 	public Result syncSanyUser(SyncUser syncUser) {
 		try {
-			List<WBUser> listUser = UserService.queryList("loginName", syncUser.getUserAccount());
+			List<WBUser> listData = UserService.queryList("loginName", syncUser.getUserAccount());
 			
 			String restUrl = "";
-			if(listUser==null || listUser.size()==0) {
+			WBUser wbUser = null;
+			if(listData==null || listData.size()==0) {						//新增用户信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.user.create.rest");
-			}else if(listUser!=null && listUser.size()==1){
+				wbUser = this.sanyUser2WBUser(syncUser);
+			}else if(listData!=null && listData.size()==1){					//修改更新用户信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.user.update.rest");
+				wbUser = this.sanyUser2WBUser(syncUser);
+				wbUser.setId(listData.get(0).getId());
 			}else {
 				log.error("同步用户信息出错，系统存在多条用户信息：user="+syncUser.getUserAccount());
 				return Result.failure(1001, "同步用户信息出错，系统存在多条用户信息：user="+syncUser.getUserAccount(), syncUser);
@@ -49,10 +53,9 @@ public class UserSyncApi {
 				log.error("无法同步用户信息，用户同步URL为空，请联系系统管理员!");
 				return Result.failure(1001, "无法同步用户信息，用户同步URL为空，请联系系统管理员：user="+syncUser.getUserAccount(), syncUser);
 			}else {
-				WBUser wbUser = this.sanyUser2WBUser(syncUser);
 				JsonResponse response = RestUtils.getInstance().doPostWithSign(restUrl, JSON.toJSONString(wbUser), JsonResponse.class);
 				if(response.isfailed()) {
-					return Result.failure(1001, response.get(response.MESSAGE));
+					return Result.failure(1001, response.get(JsonResponse.MESSAGE));
 				}else {
 					return Result.success(wbUser);
 				}
@@ -79,7 +82,7 @@ public class UserSyncApi {
 			
 			JsonResponse response = RestUtils.getInstance().doPostWithSign(restUrl, JSON.toJSONString(wbUser), JsonResponse.class);
 			if(response.isfailed()) {
-				return Result.failure(1002, response.get(response.MESSAGE));
+				return Result.failure(1002, response.get(JsonResponse.MESSAGE));
 			}else {
 				return Result.success(wbUser);
 			}
@@ -157,5 +160,5 @@ public class UserSyncApi {
 	private IUserService UserService;
 	@Autowired
 	private IOrganizationService organizationService;
-	
+
 }

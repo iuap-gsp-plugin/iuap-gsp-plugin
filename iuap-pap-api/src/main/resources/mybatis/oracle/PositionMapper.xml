@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yonyou.iuap.pap.plugin.basedoc.position.dao.PositionMapper">
+
+	<select id="queryList" resultType="com.yonyou.iuap.pap.plugin.basedoc.position.entity.Position">
+		SELECT  t.id,
+        	    t.code,
+              	t.name,
+              	t.innercode,
+             	t.org_id,
+              	t.dept_id,
+              	t.establishdate,
+              	t.tenantid,
+              	t.sysid,
+              	t.enable,
+              	t.creator,
+              	t.creationtime,
+              	t.ts,
+              	t.dr
+      	FROM  bd_position t
+		WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.code!=null and condition.code!=''">
+					and t.code = #{condition.code, jdbcType=VARCHAR}
+				</if>
+			</if>	
+	</select>
+
+</mapper>

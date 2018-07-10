@@ -2,18 +2,9 @@ package com.yonyou.iuap.pap.plugin.basedoc.org.entity;
 
 import java.util.Date;
 
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Column;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.GeneratedValue;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Id;
-import com.yonyou.iuap.persistence.jdbc.framework.annotation.Stragegy;
-
 public class Organization {
 	
-	@Id
-    @GeneratedValue(strategy = Stragegy.UUID, moudle = "id")  
-    @Column(name = "id")
     private String id;
-	
     private String parent_id;
     private String tenant_id;
     private String sys_id;

@@ -26,20 +26,23 @@ public class PositionSyncApi {
 	 * @param Position
 	 */
 	public Result syncPosition(SyncPosition syncPosition) {
-		List<Position> listUser = positionService.queryList("loginName", syncPosition.getCode());
+		List<Position> listData = positionService.queryList("loginName", syncPosition.getCode());
 		try {
 			String restUrl = "";
-			if(listUser==null || listUser.size()==0) {
+			//岗位|职位数据对象转换
+			Position position = null;
+			if(listData==null || listData.size()==0) {						//新增岗位-职位信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.position.create.rest");
-			}else if(listUser!=null && listUser.size()==1){
+				position = this.sanyPosition2Position(syncPosition);
+			}else if(listData!=null && listData.size()==1){					//更新岗位-职位信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.position.update.rest");
+				position = this.sanyPosition2Position(syncPosition);
+				position.setId(listData.get(0).getId());
 			}else {
 				log.error("同步岗位信息出错，系统存在多条岗位信息：position="+syncPosition.getCode());
 				return Result.failure(999, "同步岗位信息出错，系统存在多条岗位信息：position="+syncPosition.getCode(), syncPosition);
 			}
 
-			//岗位|职位数据对象转换
-			Position position = this.sanyPosition2Position(syncPosition);
 			Position response = RestUtils.getInstance().doPost(restUrl, position, Position.class);
 			return Result.success(response);
 		}catch(Exception exp) {
