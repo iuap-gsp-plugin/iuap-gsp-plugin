@@ -1,6 +1,5 @@
 package com.yonyou.iuap.pap.plugin.gsp.api;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,11 +32,10 @@ public class PositionSyncApi {
 			Position position = null;
 			if(listData==null || listData.size()==0) {						//新增岗位-职位信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.position.create.rest");
-				position = this.sanyPosition2Position(syncPosition);
+				position = positionService.sync2Position(syncPosition);
 			}else if(listData!=null && listData.size()==1){					//更新岗位-职位信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.position.update.rest");
-				position = this.sanyPosition2Position(syncPosition);
-				position.setId(listData.get(0).getId());
+				position = positionService.sync2Position(syncPosition, listData.get(0));
 			}else {
 				log.error("同步岗位信息出错，系统存在多条岗位信息：position="+syncPosition.getCode());
 				return Result.failure(999, "同步岗位信息出错，系统存在多条岗位信息：position="+syncPosition.getCode(), syncPosition);
@@ -50,25 +48,6 @@ public class PositionSyncApi {
 			return Result.failure(998, "同步岗位信息出错,position="+syncPosition.getCode(), syncPosition);
 		}
 	}
-	
-	/**
-	 * SyncPosition转Position
-	 * @param syncPosition
-	 * @return
-	 */
-	private Position sanyPosition2Position(SyncPosition syncPosition) {
-		Position position = new Position();
-		position.setCode(syncPosition.getCode());
-		position.setName(syncPosition.getName());
-		position.setOrg_id(syncPosition.getOrgCode());				//需调整
-		position.setDept_id(syncPosition.getDeptCode());			//需调整
-		position.setEnable(syncPosition.getEnable());
-		position.setSysid("wbalone");
-		position.setTenantid("tenant");
-		position.setDr(0);
-		position.setTs(new Date());
-		return position;
-	}	
 
 	/**********************************************/
 	@Autowired

@@ -32,9 +32,9 @@ public interface IPositionService {
 	
 	/**
 	 * SyncOrg转Position
-	 * @param Position
+	 * @param position
 	 * @return
 	 */
-	public Position sync2Position(SyncPosition syncPosition, Position Position);
+	public Position sync2Position(SyncPosition syncPosition, Position position);
 
 }

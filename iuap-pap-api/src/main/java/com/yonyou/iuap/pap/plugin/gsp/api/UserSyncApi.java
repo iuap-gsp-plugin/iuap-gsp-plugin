@@ -39,11 +39,10 @@ public class UserSyncApi {
 			WBUser wbUser = null;
 			if(listData==null || listData.size()==0) {						//新增用户信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.user.create.rest");
-				wbUser = this.sanyUser2WBUser(syncUser);
+				wbUser = UserService.sync2WBUser(syncUser);
 			}else if(listData!=null && listData.size()==1){					//修改更新用户信息
 				restUrl = PropertyUtil.getPropertyByKey("iuap.user.update.rest");
-				wbUser = this.sanyUser2WBUser(syncUser);
-				wbUser.setId(listData.get(0).getId());
+				wbUser = UserService.sync2WBUser(syncUser, listData.get(0));
 			}else {
 				log.error("同步用户信息出错，系统存在多条用户信息：user="+syncUser.getUserAccount());
 				return Result.failure(1001, "同步用户信息出错，系统存在多条用户信息：user="+syncUser.getUserAccount(), syncUser);
@@ -93,38 +92,6 @@ public class UserSyncApi {
 
 	}
 	
-	/**
-	 * syncUser转WBUser
-	 * @param syncUser
-	 * @return
-	 */
-	private WBUser sanyUser2WBUser(SyncUser syncUser) {
-		WBUser wbUser = new WBUser();
-		wbUser.setLoginName(syncUser.getUserAccount());
-		wbUser.setPassword(syncUser.getPassword());
-		wbUser.setName(syncUser.getUserName());
-		wbUser.setType(syncUser.getType());
-		wbUser.setEmail(syncUser.getEmail());
-		wbUser.setPhone(syncUser.getPhone());
-		wbUser.setCreateDate(syncUser.getCreateDate());
-		wbUser.setModifyDate(syncUser.getModifyDate());
-		wbUser.setAvator("images/dot.png");
-		wbUser.setIslock(syncUser.getIslock());
-		wbUser.setRoles("user");
-		wbUser.setStates("1");
-		wbUser.setTenantId("tenant");
-		wbUser.setRemark(syncUser.getRemark());
-		wbUser.setRegisterDate(new Date());
-		wbUser.setStates("1");
-		wbUser.setDr(0);
-		wbUser.setTs(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss SSS"));
-		if(!StrUtil.isBlank(syncUser.getOrganizationCode())) {
-			Organization organization = organizationService.findUnique("code", syncUser.getOrganizationCode());
-			wbUser.setOrganizationId(organization.getId());
-			wbUser.setOrganizationName(organization.getName());
-		}
-		return wbUser;
-	}
 	
 	/**
 	 * 外部用户转WBUser
