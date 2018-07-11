@@ -13,6 +13,7 @@ import com.yonyou.iuap.pap.plugin.basedoc.position.api.vo.SyncPosition;
 import com.yonyou.iuap.pap.plugin.basedoc.position.entity.Position;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
+import com.yonyou.uap.wb.utils.JsonResponse;
 import com.alibaba.fastjson.JSON;
 
 @Component
@@ -25,7 +26,7 @@ public class PositionSyncApi {
 	 * @param Position
 	 */
 	public Result syncPosition(SyncPosition syncPosition) {
-		List<Position> listData = positionService.queryList("loginName", syncPosition.getCode());
+		List<Position> listData = positionService.queryList("code", syncPosition.getCode());
 		try {
 			String restUrl = "";
 			//岗位|职位数据对象转换
@@ -41,8 +42,9 @@ public class PositionSyncApi {
 				return Result.failure(999, "同步岗位信息出错，系统存在多条岗位信息：position="+syncPosition.getCode(), syncPosition);
 			}
 
-			Position response = RestUtils.getInstance().doPost(restUrl, position, Position.class);
-			return Result.success(response);
+			JsonResponse response = RestUtils.getInstance().doPostWithSign(restUrl, 
+												JSON.toJSONString(position), JsonResponse.class);
+			return response.isfailed()?Result.failure(999, response.toString(), syncPosition):Result.success(response);
 		}catch(Exception exp) {
 			log.error("同步岗位信息出错,user="+JSON.toJSONString(syncPosition), exp);
 			return Result.failure(998, "同步岗位信息出错,position="+syncPosition.getCode(), syncPosition);

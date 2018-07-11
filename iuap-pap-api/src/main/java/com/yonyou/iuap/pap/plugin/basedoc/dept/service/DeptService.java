@@ -85,7 +85,6 @@ public class DeptService implements IDeptService {
 		dept.setCode(syncDept.getCode());
 		dept.setName(syncDept.getName());
 		dept.setShort_name(syncDept.getShortName());
-		
 		if(!StrUtil.isBlankIfStr(syncDept.getParentCode())) {
 			dept.setParent_id(this.getIdByCode(syncDept.getParentCode()));
 		}
@@ -98,11 +97,10 @@ public class DeptService implements IDeptService {
 		}
 		
 		dept.setParent_id(syncDept.getParentCode());		//需调整
-		dept.setCreate_date(syncDept.getCreateDate());
 		dept.setDescription(syncDept.getDescription());
+		dept.setCreate_date(syncDept.getCreateDate());
 		dept.setEffective_date(syncDept.getEffectiveDate());
 		dept.setDr(0);
-		dept.setTs(new Date());
 		return dept;
 	}
     

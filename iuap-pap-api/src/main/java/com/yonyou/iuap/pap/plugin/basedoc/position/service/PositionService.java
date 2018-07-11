@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yonyou.iuap.pap.plugin.basedoc.dept.service.IDeptService;
 import com.yonyou.iuap.pap.plugin.basedoc.org.service.IOrganizationService;
@@ -18,6 +19,7 @@ import com.yonyou.iuap.pap.plugin.basedoc.user.service.UserService;
 
 import cn.hutool.core.util.StrUtil;
 
+@Service
 public class PositionService implements IPositionService {
 
 	private Logger log = LoggerFactory.getLogger(UserService.class);
@@ -58,16 +60,23 @@ public class PositionService implements IPositionService {
 		if(StrUtil.isBlankIfStr(syncPosition.getOrgCode())) {
 			throw new RuntimeException("所属组织机构为空!");
 		}else {
-			position.setOrg_id(organizationService.getIdByCode(syncPosition.getOrgCode()));
+			String orgId = organizationService.getIdByCode(syncPosition.getOrgCode());
+			if(StrUtil.isBlank(orgId)) {
+				throw new RuntimeException("所属组织机构不存在, orgCode="+syncPosition.getOrgCode());
+			}
+			position.setOrg_id(orgId);
 		}
 		
 		if(StrUtil.isBlankIfStr(syncPosition.getDeptCode())) {
 			throw new RuntimeException("所属部门为空!");
 		}else {
-			position.setDept_id(deptService.getIdByCode(syncPosition.getDeptCode()));;
+			String deptId = deptService.getIdByCode(syncPosition.getDeptCode());
+			if(StrUtil.isBlank(deptId)) {
+				throw new RuntimeException("所属部门不存在, orgCode="+syncPosition.getOrgCode());
+			}
+			position.setDept_id(deptId);;
 		}
 		
-		position.setDept_id(syncPosition.getDeptCode());
 		position.setEnable(syncPosition.getEnable());
 		position.setSysid("wbalone");
 		position.setTenantid("tenant");
@@ -84,18 +93,25 @@ public class PositionService implements IPositionService {
 		if(StrUtil.isBlankIfStr(syncPosition.getOrgCode())) {
 			throw new RuntimeException("所属组织机构为空!");
 		}else {
-			position.setOrg_id(organizationService.getIdByCode(syncPosition.getOrgCode()));
+			String orgId = organizationService.getIdByCode(syncPosition.getOrgCode());
+			if(StrUtil.isBlank(orgId)) {
+				throw new RuntimeException("所属组织机构不存在, orgCode="+syncPosition.getOrgCode());
+			}
+			position.setOrg_id(orgId);
 		}
 		
 		if(StrUtil.isBlankIfStr(syncPosition.getDeptCode())) {
 			throw new RuntimeException("所属部门为空!");
 		}else {
-			position.setDept_id(deptService.getIdByCode(syncPosition.getDeptCode()));;
+			String deptId = deptService.getIdByCode(syncPosition.getDeptCode());
+			if(StrUtil.isBlank(deptId)) {
+				throw new RuntimeException("所属部门不存在, orgCode="+syncPosition.getOrgCode());
+			}
+			position.setDept_id(deptId);;
 		}
-
+		
 		position.setEnable(syncPosition.getEnable());
 		position.setDr(0);
-		position.setTs(new Date());
 		return position;
 	}
     

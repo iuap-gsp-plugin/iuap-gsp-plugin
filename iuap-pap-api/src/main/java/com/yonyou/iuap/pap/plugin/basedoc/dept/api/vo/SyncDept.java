@@ -13,7 +13,6 @@ public class SyncDept {
     private Date createDate;
     private Date effectiveDate;
     private String principal;
-    private String type;
     private String def01;
     private String def02;
     private String def03;
@@ -96,13 +95,6 @@ public class SyncDept {
 	}
 	public void setPrincipal(String principal) {
 		this.principal = principal;
-	}
-
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getDef01() {
