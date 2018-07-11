@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.api.vo.SyncStaff;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.entity.Staff;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.service.IStaffService;
-import com.yonyou.iuap.base.utils.RestUtils;
+import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 import com.alibaba.fastjson.JSON;

@@ -2,15 +2,8 @@ package com.yonyou.iuap.pap.plugin.basedoc.position.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 public class Position {
 	
-	@Id
-	@GeneratedValue()
-	@Column(name = "id")
 	private String  id;
 	private String  code;
 	private String  name;

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.collections.MapUtils;
+//import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +23,11 @@ import com.yonyou.iuap.generic.sign.SignMake;
 import com.yonyou.iuap.generic.utils.PropertiesUtils;
 import com.yonyou.iuap.pap.support.context.SpringContexts;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
+
 @Component
+@SuppressWarnings("all")
 public class RestUtils {
 
 	private static RestUtils restUtils = null;
@@ -130,11 +134,11 @@ public class RestUtils {
 	private String invocationToStr() {
 		String cvalue = "";
 		Map<String, String> data = setInvocationInfo();
-		if (MapUtils.isNotEmpty(data)) {
+		if (MapUtil.isNotEmpty(data)) {
 			Iterator<Map.Entry<String, String>> iterator = data.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry<String, String> entry = (Map.Entry) iterator.next();
-				if ((entry.getValue() != null) && (StringUtils.isNotEmpty((CharSequence) entry.getValue()))) {
+				if ((entry.getValue() != null) && (StrUtil.isNotEmpty((CharSequence) entry.getValue()))) {
 					cvalue = cvalue + (String) entry.getKey() + "=" + (String) entry.getValue() + ";";
 				}
 			}

@@ -2,13 +2,8 @@ package com.yonyou.iuap.pap.plugin.basedoc.dept.entity;
 
 import java.util.Date;
 
-import javax.persistence.Id;
-import com.yonyou.iuap.baseservice.support.generator.GeneratedValue;
-
 public class Dept{
 
-	@Id
-	@GeneratedValue()
     private String id;
 	
     private String parent_id;

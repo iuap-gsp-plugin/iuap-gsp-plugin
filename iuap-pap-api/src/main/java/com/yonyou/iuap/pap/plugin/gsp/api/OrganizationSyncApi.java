@@ -1,12 +1,13 @@
 package com.yonyou.iuap.pap.plugin.gsp.api;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.iuap.base.utils.RestUtils;
 import com.yonyou.iuap.pap.plugin.basedoc.org.api.vo.SyncOrg;
 import com.yonyou.iuap.pap.plugin.basedoc.org.entity.Organization;
 import com.yonyou.iuap.pap.plugin.basedoc.org.service.IOrganizationService;
+import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
+import com.yonyou.uap.wb.utils.JsonResponse;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -39,9 +40,10 @@ public class OrganizationSyncApi {
 				return Result.failure(999, "同步组织机构信息出错，系统存在多条组织机构信息：organization="+syncOrg.getCode(), syncOrg);
 			}
 			
-			//组织机构数据对象转换
-			Organization response = RestUtils.getInstance().doPost(restUrl, organization, Organization.class);
-			return Result.success(response);
+			//提交保存组织机构
+			JsonResponse response = RestUtils.getInstance().doPostWithSign(restUrl, 
+											JSON.toJSONString(organization), JsonResponse.class);
+			return response.isfailed()?Result.failure(999, response.toString(), syncOrg) : Result.success(response);
 		}catch(Exception exp) {
 			log.error("同步组织机构信息出错,organization="+JSON.toJSONString(syncOrg), exp);
 			return Result.failure(998, "同步用户信息出错,user="+JSON.toJSONString(syncOrg), "");

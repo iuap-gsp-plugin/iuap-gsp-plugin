@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.iuap.base.utils.RestUtils;
 import com.yonyou.iuap.pap.plugin.basedoc.dept.api.vo.SyncDept;
 import com.yonyou.iuap.pap.plugin.basedoc.dept.entity.Dept;
 import com.yonyou.iuap.pap.plugin.basedoc.dept.service.IDeptService;
 import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;
+import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 
@@ -42,7 +42,7 @@ public class DeptSyncApi {
 			}
 			
 			//部门数据对象转换
-			WBUser response = RestUtils.getInstance().doPost(restUrl, dept, WBUser.class);
+			WBUser response = RestUtils.getInstance().doDeleteWithSign(restUrl, dept, WBUser.class);
 			return Result.success(response);
 
 		}catch(Exception exp) {

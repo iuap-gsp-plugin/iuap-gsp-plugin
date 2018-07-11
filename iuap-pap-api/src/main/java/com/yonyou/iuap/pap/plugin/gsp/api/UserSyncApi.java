@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.iuap.pap.plugin.basedoc.org.entity.Organization;
 import com.yonyou.iuap.pap.plugin.basedoc.org.service.IOrganizationService;
 import com.yonyou.iuap.pap.plugin.basedoc.user.api.vo.SyncUser;
 import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;

@@ -64,9 +64,9 @@ public class OrganizationService implements IOrganizationService{
 		organization.setContact(syncOrg.getContact());
 		organization.setContact_phone(syncOrg.getContactPhone());
 		organization.setContact_address(syncOrg.getContactAddress());
-		organization.setCreate_date(syncOrg.getCreateDate());
-		organization.setDescription(syncOrg.getDescription());
 		organization.setEffective_date(syncOrg.getEffectiveDate());
+		organization.setDescription(syncOrg.getDescription());
+		organization.setCreate_date(syncOrg.getCreateDate());
 		organization.setType("Organization");
 		organization.setSys_id("wbalone");
 		organization.setTenant_id("tenant");
@@ -90,11 +90,10 @@ public class OrganizationService implements IOrganizationService{
 		organization.setContact(syncOrg.getContact());
 		organization.setContact_phone(syncOrg.getContactPhone());
 		organization.setContact_address(syncOrg.getContactAddress());
-		organization.setCreate_date(syncOrg.getCreateDate());
-		organization.setDescription(syncOrg.getDescription());
 		organization.setEffective_date(syncOrg.getEffectiveDate());
+		organization.setDescription(syncOrg.getDescription());
+		organization.setCreate_date(syncOrg.getCreateDate());
 		organization.setDr(0);
-		organization.setTs(new Date());
 		return organization;
 	}
     

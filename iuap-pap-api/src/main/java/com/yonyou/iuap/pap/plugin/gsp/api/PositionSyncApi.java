@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yonyou.iuap.pap.plugin.basedoc.position.service.IPositionService;
+import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.plugin.basedoc.position.api.vo.SyncPosition;
 import com.yonyou.iuap.pap.plugin.basedoc.position.entity.Position;
-import com.yonyou.iuap.base.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 import com.alibaba.fastjson.JSON;
