@@ -11,8 +11,9 @@ public interface StaffMapper {
 	public List<Staff> queryList(@Param("condition")Map<String,Object> params);
 
     public int insert(Staff entity);
-	
+
 	public int update(Staff entity);
 
 	public int delete(@Param("condition")Map<String,Object> params);
+
 }

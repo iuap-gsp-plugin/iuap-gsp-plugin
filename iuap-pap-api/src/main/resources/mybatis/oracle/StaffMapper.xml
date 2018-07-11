@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yonyou.iuap.pap.plugin.basedoc.staff.dao.StaffMapper">
+
+	<select id="queryList" resultType="com.yonyou.iuap.pap.plugin.basedoc.staff.entity.Staff">
+      	SELECT  t.id,
+	            t.code,
+	            t.name,
+	            t.parentid,
+	            t.innercode,
+	            t.birthdate,
+	            t.avator,
+	            t.certtypeid,
+	            t.certnum,
+	            t.gender,
+	            t.maritalstatus,
+	            t.educationbg,
+	            t.email,
+	            t.mobile,
+	            t.participateworkdate,
+	            t.enable,
+	            t.userid,
+	            t.sysid,
+	            t.tenantid,
+	            t.creator,
+	            t.creationtime,
+	            t.modifier,
+	            t.modifiedtime,
+	            t.dr,
+	            t.ts
+	    FROM  bd_staff t
+		WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.code!=null and condition.code!=''">
+					and t.code = #{condition.code, jdbcType=VARCHAR}
+				</if>
+			</if>	
+	</select>
+
+</mapper>
