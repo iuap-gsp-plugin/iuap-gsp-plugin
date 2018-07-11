@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yonyou.iuap.pap.plugin.basedoc.position.dao.PositionMapper;
-import com.yonyou.iuap.pap.plugin.basedoc.position.entity.Position;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.api.vo.SyncStaff;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.dao.StaffMapper;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.entity.Staff;
@@ -50,14 +48,41 @@ public class StaffService implements IStaffService {
 
 	@Override
 	public Staff sync2Staff(SyncStaff syncStaff) {
-		// TODO Auto-generated method stub
-		return null;
+		Staff staff = new Staff();
+		staff.setCode(syncStaff.getCode());
+		staff.setName(syncStaff.getName());
+		staff.setBirthdate(syncStaff.getBirthdate());
+		staff.setCerttypeid(syncStaff.getCerttypeid());
+		staff.setCertnum(syncStaff.getCertnum());
+		staff.setEducationbg(syncStaff.getEducationbg());
+		staff.setEnable(syncStaff.getEnable());
+		staff.setMaritalstatus(syncStaff.getMaritalstatus());
+		staff.setMobile(syncStaff.getMobile());
+		staff.setEmail(syncStaff.getEmail());
+		staff.setParticipateworkdate(syncStaff.getParticipateworkdate());
+		staff.setUserid(syncStaff.getUserCode());							//需要调整逻辑
+		staff.setParentid(syncStaff.getParentCode());						//需要调整逻辑
+		staff.setGender(syncStaff.getGender());
+		return staff;
 	}
 
 	@Override
 	public Staff sync2Staff(SyncStaff syncStaff, Staff staff) {
-		// TODO Auto-generated method stub
-		return null;
+		staff.setCode(syncStaff.getCode());
+		staff.setName(syncStaff.getName());
+		staff.setBirthdate(syncStaff.getBirthdate());
+		staff.setCerttypeid(syncStaff.getCerttypeid());
+		staff.setCertnum(syncStaff.getCertnum());
+		staff.setEducationbg(syncStaff.getEducationbg());
+		staff.setEnable(syncStaff.getEnable());
+		staff.setMaritalstatus(syncStaff.getMaritalstatus());
+		staff.setMobile(syncStaff.getMobile());
+		staff.setEmail(syncStaff.getEmail());
+		staff.setParticipateworkdate(syncStaff.getParticipateworkdate());
+		staff.setUserid(syncStaff.getUserCode());							//需要调整逻辑
+		staff.setParentid(syncStaff.getParentCode());						//需要调整逻辑
+		staff.setGender(syncStaff.getGender());
+		return staff;
 	}
 	
 	/*************************************************/
