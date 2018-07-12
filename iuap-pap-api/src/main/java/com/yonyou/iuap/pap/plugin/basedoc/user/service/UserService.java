@@ -65,7 +65,6 @@ public class UserService implements IUserService{
 		wbUser.setAvator("images/dot.png");
 		wbUser.setIslock(syncUser.getIslock());
 		wbUser.setRoles("user");
-		wbUser.setStates("1");
 		wbUser.setTenantId("tenant");
 		wbUser.setRemark(syncUser.getRemark());
 		wbUser.setRegisterDate(new Date());
@@ -83,7 +82,7 @@ public class UserService implements IUserService{
 	@Override
 	public WBUser sync2WBUser(SyncUser syncUser, WBUser wbUser) {
 		wbUser.setLoginName(syncUser.getUserAccount());
-		wbUser.setPassword(syncUser.getPassword());
+		wbUser.setPassword("-1");
 		wbUser.setName(syncUser.getUserName());
 		wbUser.setType(syncUser.getType());
 		wbUser.setEmail(syncUser.getEmail());
@@ -94,12 +93,35 @@ public class UserService implements IUserService{
 		wbUser.setRemark(syncUser.getRemark());
 		wbUser.setRegisterDate(new Date());
 		wbUser.setDr(0);
-		wbUser.setTs(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss SSS"));
 		if(!StrUtil.isBlank(syncUser.getOrganizationCode())) {
 			Organization organization = organizationService.findUnique("code", syncUser.getOrganizationCode());
 			wbUser.setOrganizationId(organization.getId());
 			wbUser.setOrganizationName(organization.getName());
 		}
+		return wbUser;
+	}
+	
+
+	@Override
+	public WBUser sync2WBUser4Regist(SyncUser syncUser) {
+		WBUser wbUser = new WBUser();
+		wbUser.setLoginName(syncUser.getUserAccount());
+		wbUser.setPassword(syncUser.getPassword());
+		wbUser.setName(syncUser.getUserName());
+		wbUser.setType(syncUser.getType());
+		wbUser.setEmail(syncUser.getEmail());
+		wbUser.setPhone(syncUser.getPhone());
+		wbUser.setCreateDate(syncUser.getCreateDate());
+		wbUser.setModifyDate(syncUser.getModifyDate());
+		wbUser.setAvator("images/dot.png");
+		wbUser.setIslock(syncUser.getIslock());
+		wbUser.setRoles("user");
+		wbUser.setTenantId("tenant");
+		wbUser.setRemark(syncUser.getRemark());
+		wbUser.setRegisterDate(new Date());
+		wbUser.setStates("1");
+		wbUser.setDr(0);
+		wbUser.setTs(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss SSS"));
 		return wbUser;
 	}
     

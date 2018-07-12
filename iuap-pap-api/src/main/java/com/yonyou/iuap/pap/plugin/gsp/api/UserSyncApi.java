@@ -71,7 +71,7 @@ public class UserSyncApi {
 	public Result registSupplier(SyncUser syncUser) {
 		List<WBUser> listUser = UserService.queryList("loginName", syncUser.getUserAccount());
 		if(listUser==null || listUser.size()==0) {
-			WBUser wbUser = this.outUser2WBUser(syncUser);
+			WBUser wbUser = UserService.sync2WBUser4Regist(syncUser);
 			String restUrl = PropertyUtil.getPropertyByKey("iuap.user.create.rest");
 			if(StrUtil.isBlank(restUrl)) {
 				log.error("供应商用户注册失败，供应商用户注册URL为空，请联系系统管理员!");
@@ -90,41 +90,9 @@ public class UserSyncApi {
 		}
 
 	}
-	
-	
-	/**
-	 * 外部用户转WBUser
-	 * @param syncUser
-	 * @return
-	 */
-	private WBUser outUser2WBUser(SyncUser syncUser) {
-		WBUser wbUser = new WBUser();
-		wbUser.setLoginName(syncUser.getUserAccount());
-		wbUser.setPassword(syncUser.getPassword());
-		wbUser.setName(syncUser.getUserName());
-		wbUser.setType(syncUser.getType());
-		wbUser.setEmail(syncUser.getEmail());
-		wbUser.setPhone(syncUser.getPhone());
-		wbUser.setCreateDate(syncUser.getCreateDate());
-		wbUser.setModifyDate(syncUser.getModifyDate());
-		wbUser.setAvator("images/dot.png");
-		wbUser.setIslock(syncUser.getIslock());
-		wbUser.setRoles("user");
-		wbUser.setStates("1");
-		wbUser.setTenantId("tenant");
-		wbUser.setRemark(syncUser.getRemark());
-		wbUser.setRegisterDate(new Date());
-		wbUser.setStates("1");
-		wbUser.setDr(0);
-		wbUser.setTs(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss SSS"));
-		
-		return wbUser;
-	}
 
 	/**********************************************/
 	@Autowired
 	private IUserService UserService;
-	@Autowired
-	private IOrganizationService organizationService;
 
 }

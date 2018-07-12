@@ -41,7 +41,7 @@ public class StaffSyncApi {
 				return Result.failure(999, "同步人员信息出错，系统存在多条人员信息：staff="+syncStaff.getCode(), syncStaff);
 			}
 
-			Staff response = RestUtils.getInstance().doPost(restUrl, staff, Staff.class);
+			Staff response = RestUtils.getInstance().doPostWithSign(restUrl, staff, Staff.class);
 			return Result.success(response);
 		}catch(Exception exp) {
 			log.error("同步人员信息出错,staff="+JSON.toJSONString(syncStaff), exp);
