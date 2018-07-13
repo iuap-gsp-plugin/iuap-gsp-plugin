@@ -13,6 +13,7 @@ import com.yonyou.iuap.pap.plugin.basedoc.staff.service.IStaffService;
 import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
+import com.yonyou.uap.wb.utils.JsonResponse;
 import com.alibaba.fastjson.JSON;
 
 @Component
@@ -41,8 +42,10 @@ public class StaffSyncApi {
 				return Result.failure(999, "同步人员信息出错，系统存在多条人员信息：staff="+syncStaff.getCode(), syncStaff);
 			}
 
-			Staff response = RestUtils.getInstance().doPostWithSign(restUrl, staff, Staff.class);
-			return Result.success(response);
+			log.debug("准备同步人员信息:"+JSON.toJSONString(staff));
+			JsonResponse response = RestUtils.getInstance().doPostWithSign(restUrl, 
+												JSON.toJSONString(staff), JsonResponse.class);
+			return response.isfailed()?Result.failure(999, response.toString(), syncStaff):Result.success(response);
 		}catch(Exception exp) {
 			log.error("同步人员信息出错,staff="+JSON.toJSONString(syncStaff), exp);
 			return Result.failure(998, "同步人员信息出错,staff="+syncStaff.getCode(), syncStaff);
