@@ -1,15 +1,12 @@
 package com.yonyou.iuap.pap.plugin.gsp.api;
 
-import java.util.Date;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.iuap.pap.plugin.basedoc.org.service.IOrganizationService;
 import com.yonyou.iuap.pap.plugin.basedoc.user.api.vo.SyncUser;
 import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;
 import com.yonyou.iuap.pap.plugin.basedoc.user.service.IUserService;
@@ -17,8 +14,6 @@ import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 import com.yonyou.uap.wb.utils.JsonResponse;
-
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 
 @Component
