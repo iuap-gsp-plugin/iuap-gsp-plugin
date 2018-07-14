@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+					   	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+
+					   	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+       default-autowire="byName" default-lazy-init="true">
+
+	<context:annotation-config />
+
+	<!-- 注入日志拦截器 -->
+	<bean id="logInterceptor" class="com.yonyou.uap.ieop.busilog.BusiLogInterceptor">
+		<property name="threadPoolTaskExecutor" ref="threadPoolTaskExecutor" />
+		<property name="busiLogWriter">
+			<bean class="${businessLogExporter}" />
+		</property>
+	</bean>
+
+	<!-- 加了 proxy-target-class="true"，基于类的代理将被创建 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="businessBehavior" expression="${pointcut}" />
+		<aop:aspect id="logAspect" ref="logInterceptor">
+			<aop:after-returning returning="result" method="logAfter" pointcut-ref="businessBehavior" />
+			<aop:after-throwing method="afterThrowing" pointcut-ref="businessBehavior" throwing="error" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

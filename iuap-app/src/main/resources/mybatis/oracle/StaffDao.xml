@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.plugin.basedoc.staff.dao.StaffMapper">
+
+	<resultMap id="baseResultMap" type="com.yonyou.iuap.plugin.basedoc.staff.entity.Staff">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="String" />
+		<result column="code" property="code" jdbcType="VARCHAR" javaType="String" />
+		<result column="name" property="name" jdbcType="VARCHAR" javaType="String" />
+		<result column="parentid" property="parentid" jdbcType="VARCHAR" javaType="String" />
+		<result column="innercode" property="innercode" jdbcType="VARCHAR" javaType="String" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" javaType="String" />
+		<result column="creationtime" property="creationtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="modifier" property="modifier" jdbcType="VARCHAR" javaType="String" />
+		<result column="modifiedtime" property="modifiedtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="tenantid" property="tenantid" jdbcType="VARCHAR" javaType="String" />
+		<result column="sysid" property="sysid" jdbcType="VARCHAR" javaType="String" />
+		<result column="enable" property="enable" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="dr" property="dr" jdbcType="INTEGER" javaType="int" />
+		<result column="avator" property="avator" jdbcType="VARCHAR" javaType="String" />
+		<result column="certtypeid" property="certtypeid" jdbcType="VARCHAR" javaType="String" />
+		<result column="certnum" property="certnum" jdbcType="VARCHAR" javaType="String" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" javaType="String" />
+		<result column="birthdate" property="birthdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="maritalstatus" property="maritalstatus" jdbcType="VARCHAR" javaType="String" />
+		<result column="educationbg" property="educationbg" jdbcType="VARCHAR" javaType="String" />
+		<result column="email" property="email" jdbcType="VARCHAR" javaType="String" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="String" />
+		<result column="participateworkdate" property="participateworkdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="userid" property="userid" jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+
+	<sql id="baseTable">
+		bd_staff
+	</sql>
+
+	<sql id="baseColumnList">
+		id, code, name, parentid, innercode, creator,
+		creationtime, modifier, modifiedtime, tenantid, 
+		sysid, enable, ts, dr, avator,
+		certtypeid, certnum, gender, birthdate,
+		maritalstatus, educationbg,
+		email, mobile, participateworkdate, userid
+	</sql>
+
+	<sql id="dataNotInUse">
+		dr = 1
+	</sql>
+
+	<sql id="dataEnable">
+		enable = 1
+	</sql>
+
+	<sql id="dataDisable">
+		enable = 2
+	</sql>
+
+	<insert id="insert" parameterType="com.yonyou.iuap.plugin.basedoc.staff.entity.Staff">
+		INSERT INTO
+				<include refid="baseTable" />
+			<trim prefix="(" suffix=")">
+				<include refid="baseColumnList" />
+			</trim>
+		VALUES
+		<trim prefix="(" suffix=")">
+			#{id,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{parentid,jdbcType=VARCHAR},
+			#{innercode,jdbcType=VARCHAR},
+			#{creator,jdbcType=VARCHAR},
+			#{creationtime,jdbcType=TIMESTAMP},
+			#{modifier,jdbcType=VARCHAR},
+			#{modifiedtime,jdbcType=TIMESTAMP},
+			#{tenantid,jdbcType=VARCHAR},
+			#{sysid,jdbcType=VARCHAR},
+			#{enable,jdbcType=INTEGER},
+			#{ts,jdbcType=TIMESTAMP},
+			#{dr,jdbcType=INTEGER},
+			#{avator,jdbcType=VARCHAR},
+			#{certtypeid,jdbcType=VARCHAR},
+			#{certnum,jdbcType=VARCHAR},
+			#{gender,jdbcType=VARCHAR},
+			#{birthdate,jdbcType=TIMESTAMP},
+			#{maritalstatus,jdbcType=VARCHAR},
+			#{educationbg,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{mobile,jdbcType=VARCHAR},
+			#{participateworkdate,jdbcType=TIMESTAMP},
+			#{userid,jdbcType=VARCHAR}
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.yonyou.iuap.plugin.basedoc.staff.entity.Staff">
+		UPDATE 	bd_staff
+		SET		code = #{code, jdbcType=VARCHAR},
+				name = #{name, jdbcType=VARCHAR},
+				parentid = #{parentid, jdbcType=VARCHAR},
+				innercode = #{innercode, jdbcType=VARCHAR},
+				avator = #{avator,jdbcType=VARCHAR},
+				certtypeid = #{certtypeid,jdbcType=VARCHAR},
+				certnum = #{certnum,jdbcType=VARCHAR},
+				gender = #{gender,jdbcType=VARCHAR},
+				birthdate = #{birthdate,jdbcType=TIMESTAMP},
+				maritalstatus = #{maritalstatus,jdbcType=VARCHAR},
+				educationbg = #{educationbg,jdbcType=VARCHAR},
+				email = #{email,jdbcType=VARCHAR},
+				mobile = #{mobile,jdbcType=VARCHAR},
+				participateworkdate = #{participateworkdate,jdbcType=TIMESTAMP},
+				userid = #{userid,jdbcType=VARCHAR},
+				modifier = #{modifier, jdbcType=VARCHAR},
+				modifiedtime = #{modifiedtime, jdbcType=TIMESTAMP},
+				tenantid = #{tenantid, jdbcType=VARCHAR},
+				sysid = #{sysid, jdbcType=VARCHAR},
+				enable = #{enable, jdbcType=INTEGER},
+				ts = #{newTs, jdbcType=TIMESTAMP},
+				dr = #{dr, jdbcType=INTEGER}
+		WHERE	id = #{id, jdbcType=VARCHAR}
+				and ts = #{ts, jdbcType=VARCHAR}
+	</update>
+
+</mapper>

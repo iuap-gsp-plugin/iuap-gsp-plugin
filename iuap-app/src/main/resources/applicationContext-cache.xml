@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="true">
+
+	<description>cache</description>
+    
+    <!-- redis连接池配置 -->
+	<bean id="redisPool" class="com.yonyou.iuap.cache.redis.RedisPoolFactory"
+		scope="prototype" factory-method="createJedisPool">
+		<constructor-arg value="${redis.url}" />
+	</bean>
+	
+	<bean id="jedisTemplate" class="org.springside.modules.nosql.redis.JedisTemplate">
+		<constructor-arg ref="redisPool"></constructor-arg>
+	</bean> 
+	
+    <bean id="cacheManager" class="com.yonyou.iuap.cache.CacheManager">
+        <property name="jedisTemplate" ref="jedisTemplate"/>
+    </bean>	
+    
+    <!-- <cache:annotation-driven cache-manager="annotationCacheManager" proxy-target-class="false"/> -->
+    <!-- 
+     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">    
+         <property name="maxIdle" value="${redis.maxIdle}" />     
+         <property name="maxWaitMillis" value="${redis.maxWait}" />    
+         <property name="testOnBorrow" value="${redis.testOnBorrow}" />    
+     </bean>    
+  
+     <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+     	<property name="poolConfig" ref="poolConfig" />  
+        <property name="hostName" value="${redis.host}" />  
+        <property name="port" value="${redis.port}" />  
+        <property name="password" value="${redis.pass}" />  
+     </bean>    
+    
+     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">    
+         <property name="connectionFactory" ref="JedisConnectionFactory" />    
+     </bean>  
+    -->
+
+</beans>
