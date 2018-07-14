@@ -8,13 +8,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import com.yonyou.iuap.baseservice.support.generator.GeneratorManager;
-import com.yonyou.iuap.context.InvocationInfoProxy;
 import com.yonyou.iuap.plugin.basedoc.position.dao.PositionMapper;
 import com.yonyou.iuap.plugin.basedoc.position.entity.Position;
+import com.yonyou.iuap.context.InvocationInfoProxy;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -69,7 +69,11 @@ public class PositionService implements IPositionService{
 			entity.setCreator(InvocationInfoProxy.getUserid());
 			entity.setModifier(InvocationInfoProxy.getUserid());
 		}
-		return this.positionMapper.insert(entity);
+		int resultCode = this.positionMapper.insert(entity);
+		if(resultCode>0) {
+			//cacheManager.getCacheDetail(PositionCacheDetail.class).save(entity.getId(),entity);
+		}
+		return resultCode;
 	}
 	
 	@Transactional
@@ -92,6 +96,10 @@ public class PositionService implements IPositionService{
 		}else {
 			log.error("岗位编码存在多条记录，请联系管理员：岗位编码="+entity.getCode()+";\t 数据库记录数="+listData.size());
 			resultCode = -1;
+		}
+		//缓存岗位信息
+		if(resultCode>0) {
+			//cacheManager.getCacheDetail(PositionCacheDetail.class).save(entity.getId(),entity);
 		}
 		return resultCode;
 	}

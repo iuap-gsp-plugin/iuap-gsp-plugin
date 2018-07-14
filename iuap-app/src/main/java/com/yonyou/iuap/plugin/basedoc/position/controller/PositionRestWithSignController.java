@@ -1,4 +1,4 @@
-package com.yonyou.iuap.plugin.basedoc.position.rest;
+package com.yonyou.iuap.plugin.basedoc.position.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
