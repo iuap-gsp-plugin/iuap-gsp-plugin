@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yonyou.iuap.plugin.basedoc.staff.entity.Staff;
 
 public interface StaffMapper {
-	
+
 	public List<Staff> queryList(@Param("condition")Map<String,Object> params);
 
     public int insert(Staff entity);

@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yonyou.iuap.baseservice.support.generator.GeneratorManager;
 import com.yonyou.iuap.context.InvocationInfoProxy;
 import com.yonyou.iuap.plugin.basedoc.staff.dao.StaffMapper;
 import com.yonyou.iuap.plugin.basedoc.staff.entity.Staff;
@@ -63,27 +63,44 @@ public class StaffService implements IStaffService {
 
 	@Override
 	public int insert(Staff staff) {
-		staff.setId(UUID.randomUUID().toString());
-		staff.setCreationtime(new Date());
+		//保存人员信息
+		Date now = new Date();
+		staff.setId(GeneratorManager.generateUUID());
+		staff.setCreationtime(now);
 		staff.setCreator(InvocationInfoProxy.getUserid());
-		staff.setModifiedtime(new Date());
+		staff.setModifiedtime(now);
 		staff.setModifier(InvocationInfoProxy.getUserid());
 		staff.setTs(new Date());
 		staff.setDr(0);
-		return staffMapper.insert(staff);
+		int resultCode = staffMapper.insert(staff);
+		//保存主职信息
+		mainJobInfoService.save4Staff(staff.getId(), staff.getMainjobinfo());
+		//保存兼职信息
+				
+		//保存银行账户
+		
+		return resultCode;
 	}
 
 	@Override
 	public int update(Staff staff) {
+		//更新保存用户信息
 		staff.setModifiedtime(new Date());
 		staff.setModifier(InvocationInfoProxy.getUserid());
 		staff.setDr(0);
 		staff.setNewTs(new Date());
-		return staffMapper.update(staff);		
+		int resultCode = staffMapper.update(staff);
+
+		//保存主职信息
+		mainJobInfoService.save4Staff(staff.getId(), staff.getMainjobinfo());
+
+		return resultCode;
 	}
 	
 	/*************************************************/
 	@Autowired
-	protected StaffMapper staffMapper;
+	private StaffMapper staffMapper;
+	@Autowired
+	private MainJobInfoService mainJobInfoService;
 
 }

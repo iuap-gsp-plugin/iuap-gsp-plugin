@@ -15,5 +15,5 @@ public interface PositionMapper {
 	public int update(Position entity);
 
 	public int delete(@Param("condition")Map<String,Object> params);
-	
+
 }

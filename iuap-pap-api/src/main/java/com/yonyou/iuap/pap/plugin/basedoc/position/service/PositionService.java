@@ -30,9 +30,23 @@ public class PositionService implements IPositionService {
     	return this.queryList(queryParams);
     }
     
+
+	@Override
+	public List<Map<String, Object>> queryListMap(String name, Object value) {
+    	Map<String,Object> queryParams = new HashMap<String,Object>();
+    	queryParams.put(name, value);
+		return this.queryListMap(queryParams);
+	}
+    
     public List<Position> queryList(Map<String,Object> params){
     	return this.positionMapper.queryList(params);
     }
+    
+
+	@Override
+	public List<Map<String, Object>> queryListMap(Map<String, Object> params) {
+		return this.positionMapper.queryListMap(params);
+	}
 
 	@Override
 	public Position findUnique(String name, Object value) {
@@ -122,4 +136,5 @@ public class PositionService implements IPositionService {
 	private IOrganizationService organizationService;
 	@Autowired
 	private IDeptService deptService;
+
 }

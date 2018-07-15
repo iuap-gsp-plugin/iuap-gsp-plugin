@@ -14,16 +14,16 @@ public class MainJobInfo {
 	private String id;
 	//"所属人员"
 	private String staffid;
-	//"所属组织"
-	private String orgid;
+	//"职位"
+	private String positionid;
 	//"所属部门"
 	private String deptid;
+	//"所属组织"
+	private String orgid;
 	//"人员类别"
 	private String psnlcatgid;
 	//"职务"
 	private String dutyid;
-	//"职位"
-	private String positionid;
 	//"职级"
 	private String rankid;
 	//"是否主职"
@@ -32,7 +32,6 @@ public class MainJobInfo {
 	private Date startservetime;
 	//"任职结束时间"
 	private Date endservetime;
-
 	
 	public String getId() {
 		return id;

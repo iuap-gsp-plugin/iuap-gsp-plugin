@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.iuap.plugin.basedoc.staff.dao.MainJobInfoMapper">
+
+	<select id="queryList" resultType="com.yonyou.iuap.plugin.basedoc.staff.entity.MainJobInfo">
+		SELECT t.id,
+		       t.code,
+		       t.name,
+		       t.parentid,
+		       t.innercode,
+		       t.mainjob,
+		       t.startservetime,
+		       t.endservetime,
+		       t.staffid,
+		       t.orgid,
+		       t.deptid,
+		       t.orgid,
+		       t.psnlcatgid,
+		       t.dutyid,
+		       t.positionid,
+		       t.rankid,
+		       t.creator,
+		       t.creationtime,
+		       t.modifier,
+		       t.modifiedtime,
+		       t.tenantid,
+		       t.sysid,
+		       t.enable,
+		       t.ts,
+		       t.dr
+		FROM bd_main_job t
+		WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.id!=null and condition.id!=''">
+					and t.id = #{condition.id, jdbcType=VARCHAR}
+				</if>
+				<if test="condition.staffid!=null and condition.staffid!=''">
+					and t.staffid = #{condition.staffid, jdbcType=VARCHAR}
+				</if>
+				<if test="condition.code!=null and condition.code!=''">
+					and t.code = #{condition.code, jdbcType=VARCHAR}
+				</if>
+			</if>	
+	</select>
+
+
+	<insert id="insert" parameterType="com.yonyou.iuap.plugin.basedoc.staff.entity.MainJobInfo">
+	    INSERT INTO bd_main_job(
+	           id,
+	           staffid,
+	           positionid,
+	           deptid,
+	           orgid,
+	           mainjob,
+	           psnlcatgid,
+	           dutyid,
+	           rankid,
+	           startservetime,
+	           endservetime
+	    ) VALUES (
+	           #{id, jdbcType=VARCHAR},
+	           #{staffid, jdbcType=VARCHAR},
+	           #{positionid, jdbcType=VARCHAR},
+	           #{deptid, jdbcType=VARCHAR},
+	           #{orgid, jdbcType=VARCHAR},
+	           #{mainjob, jdbcType=BOOLEAN},
+	           #{psnlcatgid, jdbcType=VARCHAR},
+	           #{dutyid, jdbcType=VARCHAR},
+	           #{rankid, jdbcType=VARCHAR},
+	           #{startservetime, jdbcType=TIMESTAMP},
+	           #{endservetime, jdbcType=TIMESTAMP}
+	    )
+	</insert>
+
+	<update id="update" parameterType="com.yonyou.iuap.plugin.basedoc.staff.entity.MainJobInfo">
+		UPDATE 	bd_main_job
+		SET		staffid = #{staffid, jdbcType=VARCHAR},
+		       	deptid = #{deptid, jdbcType=VARCHAR},
+		       	orgid = #{orgid, jdbcType=VARCHAR},
+		       	psnlcatgid = #{psnlcatgid, jdbcType=VARCHAR},
+		       	dutyid = #{dutyid, jdbcType=VARCHAR},
+		       	positionid = #{positionid, jdbcType=VARCHAR},
+		       	rankid = #{rankid, jdbcType=VARCHAR},
+		       	mainjob  = #{mainjob, jdbcType=BOOLEAN},
+		       	startservetime= #{startservetime, jdbcType=TIMESTAMP},
+		       	endservetime = #{endservetime, jdbcType=TIMESTAMP}
+		WHERE	id = #{id, jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM	bd_main_job
+		WHERE  1=1
+			<if test="condition!=null or condition.size==0" >
+				and 1=2
+			</if>
+			<if test="condition!=null and condition.size>0" >
+				<if test="condition.id!=null and condition.id!=''">
+					and id=#{condition.id, jdbcType=VARCHAR}
+				</if>
+				<if test="condition.ids!=null and condition.ids.size>0">
+					and id in 
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+			</if>
+	</delete>
+
+</mapper>

@@ -9,6 +9,8 @@ import com.yonyou.iuap.pap.plugin.basedoc.position.entity.Position;
 public interface PositionMapper {
 
 	public List<Position> queryList(@Param("condition")Map<String,Object> params);
+	
+	public List<Map<String,Object>> queryListMap(@Param("condition")Map<String,Object> params);
 
     public int insert(Position entity);
 	

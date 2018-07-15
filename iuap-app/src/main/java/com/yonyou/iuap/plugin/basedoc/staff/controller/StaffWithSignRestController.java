@@ -1,4 +1,4 @@
-package com.yonyou.iuap.plugin.basedoc.staff.rest;
+package com.yonyou.iuap.plugin.basedoc.staff.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,5 +83,5 @@ public class StaffWithSignRestController {
 	/********************************************/
 	@Autowired
 	private IStaffService staffService;	
-	
+
 }
