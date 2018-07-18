@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>wbalone</display-name> 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+    	<param-value>
+			classpath:/applicationContext-alone.xml;
+			classpath:/ap-applicationContext.xml;
+			classpath:/wbalone-shiro.xml;
+			classpath:/applicationContext-cache.xml;
+			classpath:/ieop-security-plugin.xml;
+			classpath:/applicationContext-lock.xml
+ 		</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+ 	<!-- portal self listener -->
+	<listener>
+		<listener-class>iuap.portal.context.PortalContextLoaderListener</listener-class>
+	</listener>
+	<!-- 初始化KEY-PAIR -->
+	<listener>
+		<listener-class>com.yonyou.uap.wb.job.CustomServletContextListener</listener-class>
+	</listener>
+	<!-- 初始化 zookeeper连接池 -->
+	<listener>
+		<listener-class>com.yonyou.uap.wb.job.ZookeeperContextInitListener</listener-class>
+	</listener>
+	
+	<!-- shiro -->
+	<filter>
+	   <filter-name>shiroFilter</filter-name>
+	   <filter-class>
+	      org.springframework.web.filter.DelegatingFilterProxy
+	   </filter-class>
+	   <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+	 </filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	  <filter>
+	    <filter-name>openEntityManagerInViewFilter</filter-name>
+	    <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>openEntityManagerInViewFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+
+	<!-- portal web context data filter -->
+	<filter>
+        <filter-name>InspectorFilter</filter-name>
+        <filter-class>iuap.portal.filter.InspectorFilter</filter-class>
+    </filter>
+	<filter-mapping>
+	     <filter-name>InspectorFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+	 
+	 <filter>
+        <filter-name>authrbacFilter</filter-name>
+        <filter-class> com.yonyou.uap.ieop.security.filter.AuthorizationCheckFilter</filter-class>
+    </filter>
+	<filter-mapping>
+	     <filter-name>authrbacFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+	 
+	
+
+  <context-param>
+    <param-name>guice-modules</param-name>
+    <param-value>
+      iuap.portal.shindig.common.PortalPropertiesModule:
+      iuap.portal.drive.PortalGuiceModule:
+      org.apache.shindig.common.cache.ehcache.EhCacheModule:
+      org.apache.shindig.gadgets.admin.GadgetAdminModule
+    </param-value>
+  </context-param>
+ <context-param>
+     <param-name>system.properties</param-name>
+     <param-value>
+     <![CDATA[
+        shindig.host=
+        shindig.port=
+        aKey=/shindig/gadgets/proxy?container=default&url=
+     ]]>
+     </param-value>
+  </context-param>
+
+
+  <filter>
+    <filter-name>hostFilter</filter-name>
+    <filter-class>org.apache.shindig.common.servlet.HostFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>hostFilter</filter-name>
+    <url-pattern>/gadgets/ifr</url-pattern>
+    <url-pattern>/gadgets/js/*</url-pattern>
+    <url-pattern>/gadgets/proxy/*</url-pattern>
+    <url-pattern>/gadgets/concat</url-pattern>
+    <url-pattern>/gadgets/makeRequest</url-pattern>
+    <url-pattern>/rpc/*</url-pattern>
+    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/data:layout/*</url-pattern>
+  </filter-mapping> 
+ 
+  <filter>
+    <filter-name>authFilter</filter-name>
+    <filter-class>org.apache.shindig.auth.AuthenticationServletFilter</filter-class>
+  </filter>
+
+  <filter>
+    <filter-name>etagFilter</filter-name>
+    <filter-class>org.apache.shindig.gadgets.servlet.ETagFilter</filter-class>
+  </filter>
+
+
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+<!-- uitemplate_ref start-->
+<!-- 	<filter> -->
+<!-- 		<filter-name>UIInspectorFilter</filter-name> -->
+<!-- 		<filter-class>com.yonyou.uap.wb.filter.WBemplateInspectorFilter</filter-class> -->
+<!-- 	</filter> -->
+
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>UIInspectorFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+<!-- uitemplate_ref end-->
+
+	<servlet>
+		<servlet-name>springServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-mvc.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detectAllHandlerExceptionResolvers</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+
+
+ <filter-mapping>
+    <filter-name>authFilter</filter-name>
+    <url-pattern>/social/*</url-pattern>
+    <url-pattern>/gadgets/ifr</url-pattern>
+    <url-pattern>/gadgets/makeRequest</url-pattern>
+    <url-pattern>/gadgets/proxy</url-pattern>
+    <url-pattern>/gadgets/api/rpc/*</url-pattern>
+    <url-pattern>/gadgets/api/rest/*</url-pattern>
+    <url-pattern>/rpc/*</url-pattern>
+    <url-pattern>/rest/*</url-pattern>
+    <servlet-name>springServlet</servlet-name>
+  </filter-mapping>
+
+
+
+
+  <listener>
+    <listener-class>org.apache.shindig.common.servlet.GuiceServletContextListener</listener-class>
+  </listener>
+
+  <!-- Render a Gadget -->
+  <servlet>
+    <servlet-name>xml-to-html</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.GadgetRenderingServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>accel</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.HtmlAccelServlet
+    </servlet-class>
+  </servlet>
+
+  <!-- Proxy -->
+  <servlet>
+    <servlet-name>proxy</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.ProxyServlet
+    </servlet-class>
+  </servlet>
+
+  <!-- makeRequest -->
+  <servlet>
+    <servlet-name>makeRequest</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.MakeRequestServlet
+    </servlet-class>
+  </servlet>
+
+  <!-- Concat -->
+  <servlet>
+    <servlet-name>concat</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.ConcatProxyServlet
+    </servlet-class>
+  </servlet>
+
+  <!-- OAuth callback -->
+  <servlet>
+    <servlet-name>metadata</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.RpcServlet
+    </servlet-class>
+  </servlet>
+
+  <!-- javascript serving -->
+  <servlet>
+    <servlet-name>js</servlet-name>
+    <servlet-class>org.apache.shindig.gadgets.servlet.JsServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>restapiServlet</servlet-name>
+    <servlet-class>
+      org.apache.shindig.protocol.DataServiceServlet
+    </servlet-class>
+    <init-param>
+      <param-name>handlers</param-name>
+      <param-value>org.apache.shindig.handlers</param-value>
+    </init-param>
+  </servlet>
+
+  <!-- Serve social RPC api -->
+  <servlet>
+    <servlet-name>jsonRpcServlet</servlet-name>
+    <servlet-class>
+      org.apache.shindig.protocol.JsonRpcServlet
+    </servlet-class>
+    <init-param>
+      <param-name>handlers</param-name>
+      <param-value>org.apache.shindig.handlers</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>rpcSwf</servlet-name>
+    <servlet-class>
+      org.apache.shindig.gadgets.servlet.RpcSwfServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>js</servlet-name>
+    <url-pattern>/gadgets/js/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>proxy</servlet-name>
+    <url-pattern>/gadgets/proxy/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>makeRequest</servlet-name>
+    <url-pattern>/gadgets/makeRequest</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>jsonRpcServlet</servlet-name>
+    <url-pattern>/rpc/*</url-pattern>
+    <url-pattern>/gadgets/api/rpc/*</url-pattern>
+    <url-pattern>/social/rpc/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>restapiServlet</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/gadgets/api/rest/*</url-pattern>
+    <url-pattern>/social/rest/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>concat</servlet-name>
+    <url-pattern>/gadgets/concat</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>xml-to-html</servlet-name>
+    <url-pattern>/gadgets/ifr</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>accel</servlet-name>
+    <url-pattern>/gadgets/accel</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>metadata</servlet-name>
+    <url-pattern>/gadgets/metadata</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>rpcSwf</servlet-name>
+    <url-pattern>/xpc*</url-pattern>
+  </servlet-mapping>
+
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/error/404.jsp</location>
+	</error-page>
+</web-app>

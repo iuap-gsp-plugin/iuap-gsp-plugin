@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
+	   default-lazy-init="true">
+
+	<description>Spring公共配置 </description>
+
+	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+	<!-- 	<context:component-scan base-package="iuap.portal,iuap.uitemplate,iuap.template,iuap.ref,com.yonyou"> -->
+	<context:component-scan base-package="iuap.portal,com.yonyou,iuap.uitemplate">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+<!-- 	portal start -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+	</bean>
+	
+	<!-- iuap跨数据库数据库装饰类 -->
+	<bean id="crossDBDataSource"
+		class="com.yonyou.iuap.persistence.bs.framework.ds.CrossdbDataSource">
+		<constructor-arg name="dataSource" ref="jdbcDataSource" />
+	</bean>
+	<bean id="crossdbJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="crossDBDataSource"></property>
+	</bean>
+	<!-- 声明BaseDAO -->
+	<bean id="baseDAO" class="com.yonyou.iuap.persistence.bs.dao.BaseDAO">
+		<property name="jdbcTemplate" ref="crossdbJdbcTemplate" />
+		<property name="dbMetaHelper" ref="dbMetaInfo" />
+	</bean>
+	
+	<bean id="metadataBaseDAO" class="com.yonyou.iuap.persistence.bs.dao.MetadataDAO">
+		<property name="jdbcTemplate" ref="crossdbJdbcTemplate" />
+		<property name="dbMetaHelper" ref="metadataDbMetaInfo" />
+	</bean>
+
+
+	<bean id="metadataDbMetaInfo"
+		class="com.yonyou.iuap.persistence.bs.util.MetadataDBMetaHelper">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<!-- 可以指定默认数据库类型 -->
+		<!--<property name="dbType" value="#{T(uap.web.persist.jdbc.framework.util.DBConsts).POSTGRESQL}"/> -->
+	</bean>
+	
+	<!-- 声明数据源辅助类 -->
+	<bean id="dbMetaInfo" class="com.yonyou.iuap.persistence.bs.util.DBMetaHelper">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+<!-- 	portal end   -->
+	
+<!-- 	属性文件不加密时使用 -->
+	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/application.properties" />
+	
+<!-- 	参照 start -->
+	
+<!-- 	<bean id="referRestTemplate" class="iuap.ref.environment.ReferRestTemplate"> -->
+<!--      	 <constructor-arg ref="clientHttpRequestFactory"/> -->
+<!-- 		 <property name="messageConverters"> -->
+<!--             <list> -->
+<!--                 <bean class="org.springframework.http.converter.FormHttpMessageConverter"/> -->
+<!--                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/> -->
+<!--                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"> -->
+<!--                     <property name="supportedMediaTypes"> -->
+<!--                         <list> -->
+<!--                             <value>text/html;charset=UTF-8</value> -->
+<!--                         </list> -->
+<!--                     </property> -->
+<!--                 </bean> -->
+<!--             </list> -->
+<!--         </property> -->
+<!-- 	</bean> -->
+	
+<!-- 	 <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder" factory-method="create"> -->
+<!--         <property name="connectionManager" ref="pollingConnectionManager" /> -->
+<!--         开启重试 -->
+<!--         <property name="retryHandler"> -->
+<!--             <bean class="org.apache.http.impl.client.DefaultHttpRequestRetryHandler"> -->
+<!--                 <constructor-arg value="2"/> -->
+<!--                 <constructor-arg value="true"/> -->
+<!--             </bean> -->
+<!--         </property> -->
+<!--         <property name="defaultHeaders"> -->
+<!--             <list> -->
+<!--                 <bean class="org.apache.http.message.BasicHeader"> -->
+<!--                     <constructor-arg value="User-Agent"/> -->
+<!--                     <constructor-arg value="Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36"/> -->
+<!--                 </bean> -->
+<!--                 <bean class="org.apache.http.message.BasicHeader"> -->
+<!--                     <constructor-arg value="Accept-Encoding"/> -->
+<!--                     <constructor-arg value="gzip,deflate"/> -->
+<!--                 </bean> -->
+<!--                 <bean class="org.apache.http.message.BasicHeader"> -->
+<!--                     <constructor-arg value="Accept-Language"/> -->
+<!--                     <constructor-arg value="zh-CN"/> -->
+<!--                 </bean> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--     </bean> -->
+<!--  <bean id="httpClient" factory-bean="httpClientBuilder" factory-method="build" /> -->
+ 
+<!-- 	<bean id="clientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"> -->
+<!--         <constructor-arg ref="httpClient"/> -->
+<!--         连接超时时间，毫秒 -->
+<!--         <property name="connectTimeout" value="5000"/> -->
+<!--         读写超时时间，毫秒 -->
+<!--         <property name="readTimeout" value="10000"/> -->
+<!--     </bean> -->
+<!-- 	使用httpclient的实现，带连接池 -->
+<!--     <bean id="pollingConnectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager"> -->
+<!--         整个连接池的并发 -->
+<!--         <property name="maxTotal" value="1000" /> -->
+<!--         每个主机的并发 -->
+<!--         <property name="defaultMaxPerRoute" value="1000" /> -->
+<!--     </bean> -->
+
+	<!-- 元数据配置 -->
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="jdbcDataSource" />
+		<property name="typeAliasesPackage"
+			value="com.yonyou.iuap.plugin.basedoc.staff.entity,com.yonyou.iuap.entity,com.yonyou.metadata.spi,
+					com.yonyou.metadata.mybatis.util.publish.model" />
+		<property name="mapperLocations">
+			<list>
+                <value>classpath:mybatis/**/*Dao.xml</value>
+                <value>classpath:com/*/mappers/*Mapper.xml</value>
+                <value>classpath:iuap/*/mappers/*Mapper.xml</value>
+            </list>
+		</property>
+	</bean>
+
+	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yonyou.iuap.plugin.basedoc.staff.dao,
+			com.yonyou.iuap.org.mybatis.mappers,
+			com.yonyou.iuap.repository,
+			com.yonyou.metadata.mybatis.dao,
+			iuap.ref,
+			iuap.uitemplate.translate
+			iuap.uitemplate.rt.mybatis.mappers" />
+		<!-- <property name="annotationClass"
+			value="com.yonyou.iuap.persistence.mybatis.anotation.MyBatisRepository" /> -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	<!-- 元数据配置END -->
+	
+	<!-- 配置文件进行解密  --> 
+<!--     <bean id="propertyConfigurer" class="com.yonyou.uap.wb.utils.DESEncryptPropertyConfigurer">   -->
+<!--             <property name="locations">                      -->
+<!--             <list> -->
+<!--                 <value>classpath:application.properties</value> -->
+<!--             </list> -->
+<!--             </property> -->
+<!--             <property name="ignoreUnresolvablePlaceholders"> -->
+<!-- 				<value>true</value> -->
+<!-- 			</property> -->
+<!--             <property name="encryptKeySet"> -->
+<!--             	<set> -->
+<!--             		<value>jdbc.username</value> -->
+<!--             		<value>jdbc.password</value> -->
+<!--             	</set> -->
+<!--             </property>           -->
+<!--     </bean> -->
+	<!-- Jpa Entity Manager 配置 -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="jdbcDataSource" />
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+		<property name="packagesToScan" value="com.yonyou" />
+		<property name="jpaProperties">
+			<props>
+				<!-- 命名规则 My_NAME->MyName -->
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.show_sql">false</prop>  
+			</props>
+		</property>
+	</bean>
+	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform">
+			<bean factory-method="getDialect" class="org.springside.modules.persistence.Hibernates">
+				<constructor-arg ref="jdbcDataSource" />
+			</bean>
+		</property>
+	</bean>
+	<!-- Spring Data Jpa配置 -->
+	<jpa:repositories base-package="com.yonyou" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
+
+	<!-- Jpa 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	
+	<!-- JSR303 Validator定义 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	
+
+	<!-- 数据源配置, 使用Tomcat JDBC连接池 -->
+	<bean id="jdbcDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+<!-- 		<property name="defaultCatalog" value="${jdbc.catalog}" /> -->
+
+		<!-- Connection Pooling Info -->
+		<property name="maxActive" value="${jdbc.pool.maxActive}" /><!-- 连接池的最大数据库连接数。设为0表示无限制。 -->
+		<property name="initialSize" value="${jdbc.pool.initialSize}" /><!-- 初始化连接数量 --> 
+		<property name="maxWait" value="${jdbc.pool.maxWait}" /><!-- 最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。单位毫秒 -->
+		<property name="maxIdle" value="${jdbc.pool.maxIdle}" /><!-- 最大等待连接中的数量,设 0 为没有限制 -->
+		<property name="minIdle" value="${jdbc.pool.minIdle}" /><!-- 最小等待连接中的数量,设 0 为没有限制 -->
+       	<property name="logAbandoned" value="${jdbc.pool.logAbandoned}"/>  <!-- 连接被泄露时是否打印 -->  
+		<property name="removeAbandoned" value="${jdbc.pool.removeAbandoned}" /><!--强制自我中断避免dbcp自身bug出现连接过久资源耗尽,是否自动回收超时连接-->
+		<property name="removeAbandonedTimeout" value="${jdbc.pool.removeAbandonedTimeout}" /><!--自我中断时间秒 -->
+		<property name="defaultAutoCommit" value="${jdbc.pool.defaultAutoCommit}" />
+	</bean>
+	
+    
+<!--     <bean id="dsProvider" class="com.yonyou.iuap.dynamicds.ds.DefaultDataSourceProvider"/> -->
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="jdbcDataSource"></property>
+	</bean>
+	
+	<!-- 资源国际化测试 -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basenames">
+	        <list>
+	        	<!--多模块不同的目录,key不能重复,以资源加载顺序优先-->
+				<value>messages/module_appmenu/message</value>
+				<value>messages/module_appmgr/message</value>
+				<value>messages/module_role/message</value>
+				<value>messages/common/message</value>
+	 	    </list>
+        </property>
+    </bean>
+	<task:annotation-driven executor="asyncExecutor" />
+	<task:executor id="asyncExecutor" pool-size="10-100" queue-capacity="1000" />
+
+</beans>

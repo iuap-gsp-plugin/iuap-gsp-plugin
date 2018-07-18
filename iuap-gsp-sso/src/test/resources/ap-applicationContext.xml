@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="true">
+
+	<description>portal服务公共配置 </description>
+	<!-- portal 配置 start -->
+	<!-- 门户布局公共服务 -->
+	<bean id="portalLayoutPubService"
+		class="com.yonyou.uap.wb.overwrite.service.AplayoutPerferenceServiceImpl" />
+
+	<!-- 门户小部件公共服务 -->
+	<bean id="portalWidgetPubService" class="com.yonyou.uap.wb.overwrite.service.ApWidgetServiceImpl" />
+
+	<!-- 门户小部件属性公共服务 -->
+	<bean id="portalWidgetPrefPubService"
+		class="iuap.portal.widget.service.impl.PortalWidgetPrefPubServiceImpl" />
+
+	<!--门户小部件分类 公共服务 -->
+	<bean id="portalWidgetCategoryPubService"
+		class="com.yonyou.uap.wb.overwrite.service.ApWidgetCategoryServiceImpl" />
+
+	<!--门户布局模板 公共服务 -->
+	<bean id="portalLayoutTemplatePubService"
+		class="iuap.portal.layout.service.impl.PortalLayoutTemplatePubServiceImpl" />
+
+	<!--门户用户管理公共服务 -->
+	<bean id="userManagerService" class="com.yonyou.uap.wb.service.impl.ApaccountMngServiceImpl" />
+
+	<!--门户布局视图公共服务 -->
+	<bean id="layoutViewService"
+		class="com.yonyou.uap.wb.overwrite.service.ApLayoutViewServiceImpl" />
+
+	<!--登录服务 -->
+	<bean id="loginService" class="com.yonyou.uap.wb.overwrite.service.ApLoginServiceImpl" />
+
+	<!--门户主题公共服务 -->
+	<bean id="portalThemePubService"
+		class="iuap.portal.theme.service.impl.IPortalThemePubServiceImpl" />
+    <!--门户更多菜单服务--> 
+	<bean id="portalMoreMenuService" class="com.yonyou.uap.wb.overwrite.service.ApMoreMenuPubServiceImpl" />
+	
+	<bean id="XmlMultiLangProvider" class="com.yonyou.iuap.ml.provider.XmlMultiLangProvider" />
+	<!--门户单点系统管理公共服务 -->
+	<!-- <bean id="portalSSOPropPubService" class="iuap.portal.sso.system.service.impl.PortalSSOPropPubServiceImpl" 
+		/> -->
+	<!-- portal 配置 end -->
+
+	<!-- 适配用户中心 start -->
+	<!-- 适配用户中心user相关服务 -->
+	<bean id="userCenterAdapterService"
+		class="com.yonyou.uap.wb.service.impl.management.adapter.UserCenterAdapter" />
+
+	<!-- 适配用户中心角色关联小部件相关服务 -->
+	<bean id="roleAppCenterAdapterService"
+		class="com.yonyou.uap.wb.service.impl.management.adapter.RoleAppCenterAdapter" />
+
+	<!-- 适配用户中心role相关服务 -->
+	<bean id="roleCenterAdapterService"
+		class="com.yonyou.uap.wb.service.impl.management.adapter.RoleCenterAdapter" />
+
+	<!-- 适配用户中心角色关联用户相关服务 -->
+	<bean id="userRoleCenterAdapterService"
+		class="com.yonyou.uap.wb.service.impl.management.adapter.UserRoleCenterAdapter" />
+	<!-- 适配用户中心 end -->
+
+	<!-- 以下为覆盖权限组件服务 -->
+	<!--角色管理 -->
+	<bean id="roleService"
+		class="com.yonyou.uap.wb.overwrite.service.roleservice.WBRoleService" />
+
+	<bean id="wuserService" class="com.yonyou.uap.wb.service.impl.WBUserService" />
+
+	<bean id="rolePermissionService"
+		class="com.yonyou.uap.authorization.rolepermission.service.impl.RolePermissionServiceImpl" />
+
+	<bean id="wbuserRoleService"
+		class="com.yonyou.uap.wb.service.permission.impl.UserRoleServiceImpl" />
+
+	<!-- 小应用管理 -->
+	<bean id="pubAppService"
+		class="com.yonyou.uap.app.pubservice.impl.WBPubAppServiceImpl" />
+
+	<!-- 密码策略覆盖服务 -->
+	<bean id="userPasswordCheckerServiceImpl"
+		class="com.yonyou.uap.passwordpolicy.service.impl.ApUserPasswordCheckerServiceImpl" />
+
+	<!-- 密码策略覆盖服务 -->
+	<bean id="wbLoginValidator"
+		class="com.yonyou.uap.login.validator.impl.WBPassordPolicyValidator" />
+</beans>
