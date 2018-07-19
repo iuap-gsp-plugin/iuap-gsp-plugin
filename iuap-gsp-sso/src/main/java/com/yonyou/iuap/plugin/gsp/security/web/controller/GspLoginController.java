@@ -28,6 +28,11 @@ import iuap.portal.login.LoginController;
 import iuap.portal.login.LoginException;
 import iuap.portal.model.User;
 
+/**
+ * 说明：通过iUAP提供的登录页面进行登录认证【包含iuap自有认证和ldap认证两类】
+ * @author Aton
+ * 2018年7月19日
+ */
 @Controller
 @RequestMapping(value="/security")
 public class GspLoginController extends LoginController{

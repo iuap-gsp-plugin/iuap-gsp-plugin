@@ -18,6 +18,11 @@ import iuap.portal.login.LoginException;
 import iuap.portal.web.BaseController;
 import iuap.portal.model.User;
 
+/**
+ * 说明：从三一集团portal门户登录认证
+ * @author Aton
+ * 2018年7月19日
+ */
 @Controller
 @RequestMapping(value="/security")
 public class GspSSOController extends BaseController{
