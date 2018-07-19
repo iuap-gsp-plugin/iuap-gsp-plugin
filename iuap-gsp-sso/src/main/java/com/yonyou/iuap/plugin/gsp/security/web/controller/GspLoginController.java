@@ -34,7 +34,7 @@ import iuap.portal.model.User;
  * 2018年7月19日
  */
 @Controller
-@RequestMapping(value="/security")
+@RequestMapping(value="/sso/gsp")
 public class GspLoginController extends LoginController{
 	
 	private Logger log = LoggerFactory.getLogger(GspLoginController.class);
@@ -125,7 +125,8 @@ public class GspLoginController extends LoginController{
 	private Response login4iuap(WBUser wbUser, String username, String password){
         try {
 			User user = this.loginService.veryfiy(username, password);
-			return this.loadUserResource(user);
+        	Response response = this.loadUserResource(user);
+        	return response;
 		} catch (LoginException exp) {
 			log.error("用户登录认证失败:user="+username, exp);
 			return this.failure("用户登录认证失败:user="+username);

@@ -24,7 +24,7 @@ import iuap.portal.model.User;
  * 2018年7月19日
  */
 @Controller
-@RequestMapping(value="/security")
+@RequestMapping(value="/sso/gsp")
 public class GspSSOController extends BaseController{
 	
 	private Logger log = LoggerFactory.getLogger(GspSSOController.class);
