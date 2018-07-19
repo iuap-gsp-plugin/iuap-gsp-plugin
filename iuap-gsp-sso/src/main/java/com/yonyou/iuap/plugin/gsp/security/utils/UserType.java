@@ -2,7 +2,7 @@ package com.yonyou.iuap.plugin.gsp.security.utils;
 
 public enum UserType {
 	
-	commerce("4001","上午工程师/招标工程师"),
+	commerce("4001","商务工程师/招标工程师"),
 	logistics("4002","物流工程师/仓储物流/验收人员"),
 	financial("4003","财务人员"),
 	inspector("4004","质检人员"),
