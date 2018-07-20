@@ -4,7 +4,7 @@
 
 	<groupId>com.yonyou.iuap.plugin</groupId>
 	<artifactId>iuap-plugin-mvc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>3.5.1-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>iuap-plugin-mvc</name>
