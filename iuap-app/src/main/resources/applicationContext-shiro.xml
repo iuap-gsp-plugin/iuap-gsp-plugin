@@ -108,6 +108,7 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
+				/test/** = anon
 				/**/restWithSign/** = signAuth
 				/** = statelessAuthc
 			</value>
