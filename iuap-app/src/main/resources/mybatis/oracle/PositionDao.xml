@@ -25,7 +25,33 @@
 				</if>
 			</if>	
 	</select>
-
+	
+	<select id="queryListMap" resultType="java.util.LinkedHashMap">
+	    SELECT  t.id as "id",
+              	t.code as "code",
+                t.name as "name",
+                t.innercode as "innercode",
+              	t.org_id as "org_id",
+              	tn.code as "orgCode",
+                t.dept_id as "dept_id",
+                td.code as "deptCode",
+                t.establishdate as "establishdate",
+                t.tenantid as "tenantid",
+                t.sysid as "sysid",
+                t.enable as "enable",
+                t.creator as "creator",
+                t.creationtime as "creationtime",
+                t.ts as "ts",
+                t.dr as "dr"
+        FROM  bd_position t INNER JOIN org_department td ON t.dept_id=td.id
+                            INNER JOIN org_organization tn ON t.org_id=tn.id
+    	WHERE 1=1
+			<if test="condition!=null">
+				<if test="condition.code!=null and condition.code!=''">
+					and t.code = #{condition.code, jdbcType=VARCHAR}
+				</if>
+			</if>
+	</select>
 
 	<insert id="insert" parameterType="com.yonyou.iuap.plugin.basedoc.position.entity.Position">
 		INSERT INTO bd_position(

@@ -33,6 +33,9 @@ public class MainJobInfo {
 	//"任职结束时间"
 	private Date endservetime;
 	
+	private Date creationTime;
+	private Date modifiedTime;
+	
 	public String getId() {
 		return id;
 	}
@@ -108,6 +111,20 @@ public class MainJobInfo {
 	}
 	public void setEndservetime(Date endservetime) {
 		this.endservetime = endservetime;
+	}
+	
+	public Date getCreationTime() {
+		return creationTime;
+	}
+	public void setCreationTime(Date creationTime) {
+		this.creationTime = creationTime;
+	}
+	
+	public Date getModifiedTime() {
+		return modifiedTime;
+	}
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.yonyou.iuap.plugin.basedoc.position.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yonyou.iuap.pap.plugin.basedoc.position.api.vo.SyncPosition;
 import com.yonyou.iuap.plugin.basedoc.position.entity.Position;
@@ -30,6 +31,14 @@ public interface IPositionService {
 	 * @return
 	 */
 	public List<Position> queryList(String name, Object value);
+	
+	/**
+	 * 根据对象属性查询数据列表:返回值List<Map<String,Object>>
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	public List<Map<String,Object>> queryListMap(String name, Object value);
 	
 	/**
 	 * 根据对象属性查询唯一数据

@@ -1,5 +1,6 @@
 package com.yonyou.iuap.plugin.basedoc.staff.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -66,7 +67,7 @@ public class MainJobInfoService {
 	 */
 	public void save4Staff(String staffId, List<MainJobInfo> listMainJob) {
 		//删除人员应被移除的主职信息
-		this.deleteByStaff(staffId, listMainJob);
+		this.deleteByStaff(staffId);
 		//批量保存人员主职信息
 		this.saveBatch(listMainJob);
 	}
@@ -99,19 +100,22 @@ public class MainJobInfoService {
 	 */
 	public int insert(MainJobInfo entity) {
 		entity.setId(GeneratorManager.generateUUID());
+		entity.setCreationTime(new Date());
+		entity.setModifiedTime(new Date());
 		return this.mainJobInfoMapper.insert(entity);
 	}
 	
 	/**
 	 * 更新保存
-	 * @param mainJob
+	 * @param entity
 	 * @return
 	 */
-	public int update(MainJobInfo mainJob) {
-		int resultCode = this.mainJobInfoMapper.update(mainJob);
+	public int update(MainJobInfo entity) {
+		entity.setModifiedTime(new Date());
+		int resultCode = this.mainJobInfoMapper.update(entity);
 		if(resultCode!=1) {
-			log.error("数据更新出错,mainJob="+JSON.toJSONString(mainJob));
-			throw new RuntimeException("数据更新出错,mainJob="+JSON.toJSONString(mainJob));
+			log.error("数据更新出错,mainJob="+JSON.toJSONString(entity));
+			throw new RuntimeException("数据更新出错,mainJob="+JSON.toJSONString(entity));
 		}else {
 			return resultCode;
 		}
@@ -122,27 +126,10 @@ public class MainJobInfoService {
 	 * @param staffId
 	 * @param listMainJob
 	 */
-	public void deleteByStaff(String staffId, List<MainJobInfo> listMainJob) {
-		Set<String> mainJobIds = new HashSet<String>();
-		if(listMainJob!=null) {
-			listMainJob.forEach(curMainJob->{
-				mainJobIds.add(curMainJob.getId());
-			});
-		}
-		
-		//获取数据库当前存取的主职信息ID
-		List<MainJobInfo> listDBDatas = this.queryList("staffId", staffId);
-		Set<String> mainJobIds2Del = new HashSet<String>();
-		listDBDatas.forEach(dbMainJob->{
-			if(!mainJobIds.contains(dbMainJob.getId())) {
-				mainJobIds2Del.add(dbMainJob.getId());
-			}
-		});
-
+	public void deleteByStaff(String staffId) {
 		//执行删除操作
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("staffId", staffId);
-		params.put("ids", mainJobIds2Del);
 		this.delete(params);
 	}
 	

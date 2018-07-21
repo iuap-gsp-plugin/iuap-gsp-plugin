@@ -17,6 +17,7 @@ import com.yonyou.uap.wb.utils.jsonutils.JsonMapper;
 
 //@Controller
 //@RequestMapping(value="/position/restWithSign")
+@SuppressWarnings("all")
 public class PositionRestWithSignController{
 	
 	private static final Logger log = LoggerFactory.getLogger(PositionRestWithSignController.class);

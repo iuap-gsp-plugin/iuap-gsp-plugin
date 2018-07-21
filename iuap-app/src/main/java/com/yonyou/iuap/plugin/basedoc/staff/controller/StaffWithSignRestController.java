@@ -14,8 +14,9 @@ import com.yonyou.iuap.plugin.basedoc.staff.service.IStaffService;
 import com.yonyou.uap.wb.utils.JsonResponse;
 import com.yonyou.uap.wb.utils.jsonutils.JsonMapper;
 
-@Controller
-@RequestMapping(value="/staff/restWithSign")
+//@Controller
+//@RequestMapping(value="/staff/restWithSign")
+@SuppressWarnings("all")
 public class StaffWithSignRestController {
 
 	private static final Logger log = LoggerFactory.getLogger(StaffWithSignRestController.class);

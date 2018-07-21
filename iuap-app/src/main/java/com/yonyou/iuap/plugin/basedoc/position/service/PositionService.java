@@ -62,6 +62,13 @@ public class PositionService implements IPositionService{
 		return positionMapper.queryList(params);
 	}
 	
+	@Override
+	public List<Map<String, Object>> queryListMap(String name, Object value) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put(name, value);
+		return this.positionMapper.queryListMap(params);
+	}
+	
 	public Position findUnique(String name, Object value) {
 		List<Position> listData = this.queryList(name, value);
 		if(listData!=null && listData.size()==1) {

@@ -56,7 +56,9 @@
 	           dutyid,
 	           rankid,
 	           startservetime,
-	           endservetime
+	           endservetime,
+	           creationTime,
+	           modifiedTime
 	    ) VALUES (
 	           #{id, jdbcType=VARCHAR},
 	           #{staffid, jdbcType=VARCHAR},
@@ -68,7 +70,9 @@
 	           #{dutyid, jdbcType=VARCHAR},
 	           #{rankid, jdbcType=VARCHAR},
 	           #{startservetime, jdbcType=TIMESTAMP},
-	           #{endservetime, jdbcType=TIMESTAMP}
+	           #{endservetime, jdbcType=TIMESTAMP},
+	           #{creationTime, jdbcType=TIMESTAMP},
+	           #{modifiedTime, jdbcType=TIMESTAMP}
 	    )
 	</insert>
 
@@ -83,23 +87,27 @@
 		       	rankid = #{rankid, jdbcType=VARCHAR},
 		       	mainjob  = #{mainjob, jdbcType=BOOLEAN},
 		       	startservetime= #{startservetime, jdbcType=TIMESTAMP},
-		       	endservetime = #{endservetime, jdbcType=TIMESTAMP}
+		       	endservetime = #{endservetime, jdbcType=TIMESTAMP},
+		       	modifiedTime = #{modifiedTime, jdbcType=TIMESTAMP}
 		WHERE	id = #{id, jdbcType=VARCHAR}
 	</update>
 	
 	<delete id="delete">
 		DELETE FROM	bd_main_job
 		WHERE  1=1
-			<if test="condition!=null or condition.size==0" >
+			<if test="condition==null or condition.size==0" >
 				and 1=2
 			</if>
 			<if test="condition!=null and condition.size>0" >
 				<if test="condition.id!=null and condition.id!=''">
 					and id=#{condition.id, jdbcType=VARCHAR}
 				</if>
+				<if test="condition.staffId!=null and condition.staffId!=''">
+					and staffid=#{condition.staffId, jdbcType=VARCHAR}
+				</if>
 				<if test="condition.ids!=null and condition.ids.size>0">
 					and id in 
-					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					<foreach collection="condition.ids" index="index" item="item" open="(" separator="," close=")">
 						#{item}
 					</foreach>
 				</if>

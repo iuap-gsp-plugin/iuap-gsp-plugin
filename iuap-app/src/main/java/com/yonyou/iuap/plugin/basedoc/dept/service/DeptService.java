@@ -55,6 +55,14 @@ public class DeptService implements IDeptService {
     	return this.deptMapper.queryList(params);
     }
     
+
+	@Override
+	public List<Map<String, Object>> queryListMap(String name, Object value) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put(name, value);
+		return this.deptMapper.queryListMap(params);
+	}
+    
 	@Override
 	public Dept findUnique(String name, Object value) {
 		List<Dept> listData = this.queryList(name, value);
