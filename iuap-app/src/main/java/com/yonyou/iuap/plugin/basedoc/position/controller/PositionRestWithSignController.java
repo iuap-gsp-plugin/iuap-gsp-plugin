@@ -15,14 +15,11 @@ import com.yonyou.iuap.plugin.basedoc.position.service.IPositionService;
 import com.yonyou.uap.wb.utils.JsonResponse;
 import com.yonyou.uap.wb.utils.jsonutils.JsonMapper;
 
-@Controller
-@RequestMapping(value="/position/restWithSign")
+//@Controller
+//@RequestMapping(value="/position/restWithSign")
 public class PositionRestWithSignController{
 	
 	private static final Logger log = LoggerFactory.getLogger(PositionRestWithSignController.class);
-	
-	@Autowired
-	private IPositionService positionService;
 	
 	/**
 	 * 新增保存岗位
@@ -81,5 +78,9 @@ public class PositionRestWithSignController{
 		} 
 		return null;
 	}
+	
+	/******************************************************/
+	@Autowired
+	private IPositionService positionService;
 
 }

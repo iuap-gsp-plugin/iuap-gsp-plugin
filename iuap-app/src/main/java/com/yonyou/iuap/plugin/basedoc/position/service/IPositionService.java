@@ -2,9 +2,26 @@ package com.yonyou.iuap.plugin.basedoc.position.service;
 
 import java.util.List;
 
+import com.yonyou.iuap.pap.plugin.basedoc.position.api.vo.SyncPosition;
 import com.yonyou.iuap.plugin.basedoc.position.entity.Position;
+import com.yonyou.uap.wb.utils.JsonResponse;
 
 public interface IPositionService {
+	
+	/**
+	 * 岗位信息新增同步
+	 * @param syncOrg
+	 * @return
+	 */
+	public JsonResponse sync4Create(SyncPosition syncPosition);
+	
+	/**
+	 * 岗位信息更新同步
+	 * @param syncPosition
+	 * @param position
+	 * @return
+	 */
+	public JsonResponse sync4Update(SyncPosition syncPosition, Position position);
 	
 	/**
 	 * 根据对象属性查询数据列表
