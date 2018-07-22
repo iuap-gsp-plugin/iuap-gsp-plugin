@@ -19,11 +19,24 @@
     </properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.yonyou.iuap.pap</groupId>
+			<artifactId>iuap-pap-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+ 
     	<dependency>
 			<groupId>com.yonyou.iuap.baseservice</groupId>
 			<artifactId>iuap-pap-baseservice-controller</artifactId>
 			<version>${iuap-pap-baseservice.version}</version>
     	</dependency>
+    	
+    	<!--
+		<dependency>
+			<groupId>com.yonyou.iuap.pap.workbench</groupId>
+			<artifactId>workbench-cache</artifactId>
+			<version>${module.version}</version>
+		</dependency>
     	<dependency>
 			<groupId>com.yonyou.iuap.baseservice</groupId>
 			<artifactId>iuap-pap-baseservice-service</artifactId>
@@ -38,7 +51,15 @@
 			<groupId>com.yonyou.iuap.baseservice</groupId>
 			<artifactId>iuap-pap-baseservice-entity</artifactId>
 			<version>${iuap-pap-baseservice.version}</version>
-    	</dependency>    	
+    	</dependency>   
+     -->
+     
+     	<dependency>
+     		<groupId>com.yonyou.iuap.pap</groupId>
+			<artifactId>eiap-plus-common</artifactId>
+			<version>${module.version}</version>
+     	</dependency>
+     
         <dependency>
 			<groupId>com.yonyou.iuap</groupId>
             <artifactId>iuap-licenseclient</artifactId>
