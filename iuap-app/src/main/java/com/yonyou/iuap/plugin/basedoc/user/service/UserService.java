@@ -1,4 +1,4 @@
-package com.yonyou.iuap.pap.plugin.basedoc.user.service;
+package com.yonyou.iuap.plugin.basedoc.user.service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,19 +10,40 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.yonyou.iuap.pap.plugin.basedoc.org.entity.Organization;
-import com.yonyou.iuap.pap.plugin.basedoc.org.service.IOrganizationService;
+import com.yonyou.iuap.plugin.basedoc.org.entity.Organization;
+import com.yonyou.iuap.plugin.basedoc.org.service.IOrgService;
+import com.yonyou.iuap.plugin.basedoc.user.dao.WBUserMapper;
+import com.yonyou.iuap.plugin.basedoc.user.entity.WBUser;
+import com.yonyou.iuap.utils.PropertyUtil;
+import com.yonyou.uap.wb.utils.JsonResponse;
+import com.alibaba.fastjson.JSON;
+import com.yonyou.iuap.base.utils.RestUtils;
 import com.yonyou.iuap.pap.plugin.basedoc.user.api.vo.SyncUser;
-import com.yonyou.iuap.pap.plugin.basedoc.user.dao.WBUserMapper;
-import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 
-@Component
+@Component("plugin.userService")
 public class UserService implements IUserService{
 	
 	private Logger log = LoggerFactory.getLogger(UserService.class);
+	private String createRestUrl = PropertyUtil.getPropertyByKey("iuap.user.create.rest");
+	private String updateRestUrl = PropertyUtil.getPropertyByKey("iuap.user.update.rest");
+
+	@Override
+	public JsonResponse sync4Create(SyncUser syncUser) {
+		WBUser wbUser = this.convertWBUser(syncUser);
+		return RestUtils.getInstance().doPostWithSign(createRestUrl, 
+						JSON.toJSONString(wbUser), JsonResponse.class);
+	}
+
+	@Override
+	public JsonResponse sync4Update(SyncUser syncUser, WBUser wbUser) {
+		this.convertWBUser(syncUser, wbUser);
+		log.info("同步用户:"+JSON.toJSONString(wbUser));
+		return RestUtils.getInstance().doPostWithSign(updateRestUrl, 
+						JSON.toJSONString(wbUser), JsonResponse.class);
+	}
 
     public List<WBUser> queryList(String name, Object value){
     	Map<String,Object> queryParams = new HashMap<String,Object>();
@@ -51,8 +72,12 @@ public class UserService implements IUserService{
 		return wbUser.getId();
 	}
 
-	@Override
-	public WBUser sync2WBUser(SyncUser syncUser) {
+	/**
+	 * SyncUser转WBUser【三一内部用户】--新增用户
+	 * @param syncUser
+	 * @return
+	 */
+	private WBUser convertWBUser(SyncUser syncUser) {
 		WBUser wbUser = new WBUser();
 		wbUser.setLoginName(syncUser.getUserAccount());
 		wbUser.setPassword(syncUser.getPassword());
@@ -72,38 +97,45 @@ public class UserService implements IUserService{
 		wbUser.setDr(0);
 		wbUser.setTs(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss SSS"));
 		if(!StrUtil.isBlank(syncUser.getOrganizationCode())) {
-			Organization organization = organizationService.findUnique("code", syncUser.getOrganizationCode());
+			Organization organization = orgService.findUnique("code", syncUser.getOrganizationCode());
 			wbUser.setOrganizationId(organization.getId());
 			wbUser.setOrganizationName(organization.getName());
 		}
 		return wbUser;
 	}
 
-	@Override
-	public WBUser sync2WBUser(SyncUser syncUser, WBUser wbUser) {
+	/**
+	 * SyncUser转WBUser【三一内部用户】
+	 * @param syncUser
+	 * @param wbUser
+	 * @return
+	 */
+	private WBUser convertWBUser(SyncUser syncUser, WBUser wbUser) {
 		wbUser.setLoginName(syncUser.getUserAccount());
-		wbUser.setPassword("-1");
+		wbUser.setPassword(StrUtil.isBlank(wbUser.getPassword())?"-1":wbUser.getPassword());
 		wbUser.setName(syncUser.getUserName());
 		wbUser.setType(syncUser.getType());
 		wbUser.setEmail(syncUser.getEmail());
 		wbUser.setPhone(syncUser.getPhone());
-		wbUser.setCreateDate(syncUser.getCreateDate());
 		wbUser.setModifyDate(syncUser.getModifyDate());
 		wbUser.setIslock(syncUser.getIslock());
 		wbUser.setRemark(syncUser.getRemark());
 		wbUser.setRegisterDate(new Date());
 		wbUser.setDr(0);
 		if(!StrUtil.isBlank(syncUser.getOrganizationCode())) {
-			Organization organization = organizationService.findUnique("code", syncUser.getOrganizationCode());
+			Organization organization = orgService.findUnique("code", syncUser.getOrganizationCode());
 			wbUser.setOrganizationId(organization.getId());
 			wbUser.setOrganizationName(organization.getName());
 		}
 		return wbUser;
 	}
 	
-
-	@Override
-	public WBUser sync2WBUser4Regist(SyncUser syncUser) {
+	/**
+	 * SyncUser转WBUser【三一外部用户注册、新增】
+	 * @param syncUser
+	 * @return
+	 */
+	private WBUser convertWBUser4Regist(SyncUser syncUser) {
 		WBUser wbUser = new WBUser();
 		wbUser.setLoginName(syncUser.getUserAccount());
 		wbUser.setPassword(syncUser.getPassword());
@@ -129,6 +161,6 @@ public class UserService implements IUserService{
 	@Autowired
 	protected WBUserMapper wBUserMapper;
 	@Autowired
-	private IOrganizationService organizationService;
+	private IOrgService orgService;
 
 }

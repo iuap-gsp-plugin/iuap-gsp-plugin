@@ -1,31 +1,61 @@
 package com.yonyou.iuap.pap.plugin.gsp.api;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yonyou.iuap.pap.plugin.basedoc.staff.api.vo.SyncStaff;
-import com.yonyou.iuap.pap.plugin.basedoc.staff.entity.Staff;
-import com.yonyou.iuap.pap.plugin.basedoc.staff.service.IStaffService;
 import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 import com.yonyou.uap.wb.utils.JsonResponse;
-import com.alibaba.fastjson.JSON;
+
+import cn.hutool.core.util.StrUtil;
 
 @Component
 public class StaffSyncApi {
 
 	private Logger log = LoggerFactory.getLogger(StaffSyncApi.class);
+	
+	/**
+	 * 岗位|职位同步Rest服务
+	 * @param syncStaff
+	 */
+	public Result syncStaff(SyncStaff syncStaff) {
+		if(StrUtil.isBlank(syncStaff.getCode())) {
+			return Result.failure(999, "人员编码为空!");
+		}
+		if(StrUtil.isBlank(syncStaff.getName())) {
+			return Result.failure(999, "人员名称为空!");
+		}
+		if(syncStaff.getSyncMainJob()!=null) {
+			if(StrUtil.isBlank(syncStaff.getSyncMainJob().getDeptCode())) {
+				return Result.failure(999, "主职信息-所属部门编码为空!");
+			}
+			if(StrUtil.isAllBlank(syncStaff.getSyncMainJob().getOrgCode())) {
+				return Result.failure(999, "主职信息-所属组织机构编码为空!");
+			}
+		}
+		
+		String syncUrl = PropertyUtil.getPropertyByKey("iuap.staff.sync.rest");
+		try {
+			JsonResponse response = RestUtils.getInstance().doPostWithSign(syncUrl, 
+											JSON.toJSONString(syncStaff), JsonResponse.class);
+			return response.isfailed() ? Result.failure(999, response.toString(), syncStaff):Result.success(response);
+		}catch(Exception exp) {
+			log.error("同步人员信息出错, staff="+JSON.toJSONString(syncStaff), exp);
+			return Result.failure(998, "同步人员信息出错, staff="+JSON.toJSONString(syncStaff), "");
+		}
+	}
+	
+	
 
 	/**
 	 * 人员同步Rest服务
 	 * @param Position
 	 */
-	public Result syncStaff(SyncStaff syncStaff) {
+/*	public Result syncStaff(SyncStaff syncStaff) {
 		List<Staff> listData = staffService.queryList("code", syncStaff.getCode());
 		try {
 			String restUrl = "";
@@ -50,10 +80,6 @@ public class StaffSyncApi {
 			log.error("同步人员信息出错,staff="+JSON.toJSONString(syncStaff), exp);
 			return Result.failure(998, "同步人员信息出错,staff="+syncStaff.getCode(), syncStaff);
 		}
-	}
-
-	/**********************************************/
-	@Autowired
-	private IStaffService staffService;
+	}*/
 
 }

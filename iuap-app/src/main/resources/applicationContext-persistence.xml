@@ -93,9 +93,11 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
+	<!-- 由于应用平台数据库表、字段类型与baseservice存在较大差异，无法使用
     <bean id="autoMapperLoader" class="com.yonyou.iuap.baseservice.persistence.mybatis.ext.AutoMapperLoader" 
 			lazy-init="false">
         <property name="basePackage" value="com.sany.**.dao"/>
     </bean>
-
+	 -->
+	 
 </beans>

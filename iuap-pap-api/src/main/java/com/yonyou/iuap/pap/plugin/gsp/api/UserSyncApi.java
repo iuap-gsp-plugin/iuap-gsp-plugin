@@ -1,19 +1,16 @@
 package com.yonyou.iuap.pap.plugin.gsp.api;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.yonyou.iuap.pap.plugin.basedoc.user.api.vo.SyncUser;
-import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;
-import com.yonyou.iuap.pap.plugin.basedoc.user.service.IUserService;
 import com.yonyou.iuap.pap.support.utils.RestUtils;
 import com.yonyou.iuap.pap.surface.Result;
 import com.yonyou.iuap.utils.PropertyUtil;
 import com.yonyou.uap.wb.utils.JsonResponse;
+
 import cn.hutool.core.util.StrUtil;
 
 @Component
@@ -26,6 +23,34 @@ public class UserSyncApi {
 	 * @param wbUser
 	 */
 	public Result syncSanyUser(SyncUser syncUser) {
+		if(StrUtil.isBlank(syncUser.getUserAccount())) {
+			return Result.failure(999, "用户登录帐号为空!");
+		}
+		if(StrUtil.isBlank(syncUser.getType())) {
+			return Result.failure(999, "用户类型为空!");
+		}
+		if(StrUtil.isBlank(syncUser.getUserName())) {
+			return Result.failure(999, "用户名称[姓名]为空!");
+		}
+		if(StrUtil.isBlank(syncUser.getIslock())) {
+			return Result.failure(999, "用户是否锁定状态为空!");
+		}
+		
+		String syncUrl = PropertyUtil.getPropertyByKey("iuap.user.sync.rest");
+		try {
+			JsonResponse response = RestUtils.getInstance().doPostWithSign(syncUrl, 
+											JSON.toJSONString(syncUser), JsonResponse.class);
+			return response.isfailed() ? Result.failure(999, response.toString(), syncUser):Result.success(response);
+		}catch(Exception exp) {
+			log.error("同步用户【帐号】信息出错, user="+JSON.toJSONString(syncUser), exp);
+			return Result.failure(998, "同步用户【帐号】信息出错, user="+JSON.toJSONString(syncUser), "");
+		}
+
+	}
+	
+	
+	
+/*	public Result syncSanyUser(SyncUser syncUser) {
 		try {
 			List<WBUser> listData = UserService.queryList("loginName", syncUser.getUserAccount());
 			
@@ -58,12 +83,12 @@ public class UserSyncApi {
 			return Result.failure(1001, "同步用户信息出错,user="+syncUser.getUserAccount(), syncUser);
 		}
 	}
-	
+*/	
 	/**
 	 * 供应商用户注册
 	 * @param syncUser
 	 */
-	public Result registSupplier(SyncUser syncUser) {
+/*	public Result registSupplier(SyncUser syncUser) {
 		List<WBUser> listUser = UserService.queryList("loginName", syncUser.getUserAccount());
 		if(listUser==null || listUser.size()==0) {
 			WBUser wbUser = UserService.sync2WBUser4Regist(syncUser);
@@ -84,10 +109,6 @@ public class UserSyncApi {
 			return Result.failure(1002, "供应商用户注册出错，系统已存在该用户：user="+syncUser.getUserAccount(), syncUser);
 		}
 
-	}
-
-	/**********************************************/
-	@Autowired
-	private IUserService UserService;
+	}*/
 
 }

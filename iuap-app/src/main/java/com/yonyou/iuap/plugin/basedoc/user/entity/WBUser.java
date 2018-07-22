@@ -1,4 +1,4 @@
-package com.yonyou.iuap.pap.plugin.basedoc.user.entity;
+package com.yonyou.iuap.plugin.basedoc.user.entity;
 
 import java.util.Date;
 

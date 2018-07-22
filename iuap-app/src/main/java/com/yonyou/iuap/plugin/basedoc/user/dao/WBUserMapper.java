@@ -1,10 +1,10 @@
-package com.yonyou.iuap.pap.plugin.basedoc.user.dao;
+package com.yonyou.iuap.plugin.basedoc.user.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import com.yonyou.iuap.pap.plugin.basedoc.user.entity.WBUser;
+import com.yonyou.iuap.plugin.basedoc.user.entity.WBUser;
 
 public interface WBUserMapper {
 
