@@ -30,7 +30,7 @@ import iuap.portal.model.User;
 
 /**
  * 说明：通过iUAP提供的登录页面进行登录认证【包含iuap自有认证和ldap认证两类】
- * @author Aton
+ * @author Aton 
  * 2018年7月19日
  */
 @Controller
