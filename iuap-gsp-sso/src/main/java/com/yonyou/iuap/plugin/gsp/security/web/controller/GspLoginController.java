@@ -53,9 +53,9 @@ public class GspLoginController extends LoginController{
         String encoderPswd = this.getParameter("password");				//密文
         String orgPswd = this.getParameter("orgPassword");				//明文
 		try {
-			WBUser wbUser = wBUserService.getByCode(uname);
+		    String username = URLDecoder.decode(uname, "utf-8");
+			WBUser wbUser = wBUserService.getByLoginName(username);
 			if(wbUser != null) {
-			    String username = URLDecoder.decode(uname, "utf-8");
 				boolean isSanyInner = authService.isSanyUser(wbUser.getType());
 				if(isSanyInner) {									//三一内部用户——采购商
 				    String orgPassword = URLDecoder.decode(orgPswd, "utf-8");
